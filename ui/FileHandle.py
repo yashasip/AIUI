@@ -3,12 +3,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class FileHandle:
     def __init__(self, parent) -> None:
-        self.binaryFileSelectorFrame = QtWidgets.QFrame(parent)
+        self.parentWidget = parent
+        self.binaryFileSelectorFrame = QtWidgets.QFrame(self.parentWidget)
         self.filePathInputBox = QtWidgets.QLineEdit(self.binaryFileSelectorFrame)
         self.fileLabel = QtWidgets.QLabel(self.binaryFileSelectorFrame)
         self.chooseFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
         self.fileTypeComboBox = QtWidgets.QComboBox(self.binaryFileSelectorFrame)
         self.viewFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
+
+        self.filePath = None
 
         self.setupFileHandle()
 
