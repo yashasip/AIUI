@@ -37,9 +37,7 @@ class FileHandle:
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
-<<<<<<< HEAD
         
-=======
 
     def openFile(self, fileFilter=None):
         import os
@@ -50,4 +48,3 @@ class FileHandle:
             filter = 'CSV File( *.csv )'
         )
         self.filePath = fileObj[0]
->>>>>>> 73809d3b2069748788318e15b22f6958e1961848
