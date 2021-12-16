@@ -50,7 +50,7 @@ class ModelConfigGroup:
         self.optimizerLabel.setText("Optimizer")
 
         self.optimizerComboBox.setGeometry(QtCore.QRect(170, 100, 231, 31))
-        self.optimizerComboBox.addItems(['adam','sgd','rmsprop','adadelta','adagrad','adamax','nadam','ftrl'])
+        self.optimizerComboBox.addItems(['Adam','SGD','RMSprop','Adadelta','Adagrad','Adamax','Nadam','Ftrl'])
 
         self.normalizationRadioButton.setGeometry(QtCore.QRect(170, 210, 111, 21))
         self.normalizationRadioButton.setChecked(True)
