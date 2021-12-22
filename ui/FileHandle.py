@@ -45,6 +45,7 @@ class FileHandle:
             parent=self.parentWidget,
             caption = 'Choose File',
             directory= os.getcwd(),
-            filter = 'CSV File( *.csv )'
+            filter = 'Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) '
         )
         self.filePath = fileObj[0]
+        self.filePathInputBox.setText(self.filePath)
