@@ -39,6 +39,7 @@ class ModelConfigGroup:
 
         self.activationFunctionLabel.setGeometry(QtCore.QRect(30, 150, 111, 31))
         self.activationFunctionLabel.setText("Activation Function")
+        self.activationFunctionComboBox.addItems(['sigmoid','relu','softmax','softplus','softsign','tanh','selu','elu','exponential'])
 
         self.moreOptionsToolButton.setGeometry(QtCore.QRect(500, 20, 41, 41))
         self.moreOptionsToolButton.setText("...")
