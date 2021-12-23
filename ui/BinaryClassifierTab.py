@@ -49,13 +49,12 @@ class BinaryClassifierTab:
 
         self.tableHorizontalButtonsLayout.addItem(self.tableButtonSpacer1)
 
+        self.predictBtn = QtWidgets.QPushButton("Predict",self.tableLayout)
+        self.tableHorizontalButtonsLayout.addWidget(self.predictBtn)
+
         self.saveBtn = QtWidgets.QPushButton("Save",self.tableLayout)
-        self.saveBtn.setGeometry(QtCore.QRect(640, 695, 101, 28))
         self.tableHorizontalButtonsLayout.addWidget(self.saveBtn)
 
-        self.predictBtn = QtWidgets.QPushButton("Predict",self.tableLayout)
-        self.predictBtn.setGeometry(QtCore.QRect(640, 695, 101, 28))
-        self.tableHorizontalButtonsLayout.addWidget(self.predictBtn)
 
         self.tableHorizontalButtonsLayout.addItem(self.tableButtonSpacer2)
 
