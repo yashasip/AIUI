@@ -13,7 +13,7 @@ class MainWindow(object):
         self.setupUi()
 
     def setupUi(self):
-        self.mainWindow.resize(1275, 795)
+        self.mainWindow.resize(1257, 780)
         self.mainWindow.setWindowTitle("AIUI")
 
         self.centralwidget = QtWidgets.QWidget(self.mainWindow)
@@ -21,7 +21,7 @@ class MainWindow(object):
         self.verticalLayoutWidget = QtWidgets.QWidget(
             self.centralwidget
         )  # Outermost Layout
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 1261, 721))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 20, 1238, 710))
 
         self.mainLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.mainLayout.setContentsMargins(0, 0, 0, 0)

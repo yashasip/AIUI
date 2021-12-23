@@ -11,7 +11,7 @@ class BinaryClassifierTab:
 
         self.tabLayout = QtWidgets.QWidget(self.tab)
         self.tabLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabLayout.setGeometry(QtCore.QRect(19, 9, 1211, 661))
+        self.tabLayout.setGeometry(QtCore.QRect(19, 9, 1199, 651))
         self.binaryInnerTabLayout = QtWidgets.QVBoxLayout(self.tabLayout)
         self.binaryInnerTabLayout.setContentsMargins(0, 0, 0, 0)
 
@@ -24,7 +24,7 @@ class BinaryClassifierTab:
 
         # Config box layout
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.binaryTabFrame)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(0, 100, 581, 561))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(5, 78, 581, 561))
         self.horizontalLayoutWidget.setContentsMargins(0, 0, 0, 0)
 
         self.ConfigLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
@@ -36,7 +36,7 @@ class BinaryClassifierTab:
 
         # Table Layout
         self.tableLayout = QtWidgets.QWidget(self.binaryTabFrame)
-        self.tableLayout.setGeometry(QtCore.QRect(609, 99, 601, 561))
+        self.tableLayout.setGeometry(QtCore.QRect(609, 99, 580, 540))
 
         self.inputTableLayout = QtWidgets.QVBoxLayout(self.tableLayout)
         self.inputTableLayout.setContentsMargins(0, 0, 0, 0)
