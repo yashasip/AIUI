@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from ui.BinaryClassifierTab import BinaryClassifierTab
+from ui.ImageRecognizerTab import ImageRecognizerTab
 from ui.MenuBar import MenuBar
 
 
@@ -30,15 +31,12 @@ class MainWindow(object):
         self.tabs.append(BinaryClassifierTab())  # first tab
 
         # Tab Set
-        self.tabBar.addTab(self.tabs[0].tab, "")
-        self.tabBar.setTabText(
-            self.tabBar.indexOf(self.tabs[0].tab), "Binary Classifier"
-        )
+        self.tabBar.addTab(self.tabs[0].tab, "Binary Classifier")
 
-        self.textRecognitionTab = QtWidgets.QWidget()
-        self.tabBar.addTab(self.textRecognitionTab, "")
-        self.tabBar.setTabText(self.tabBar.indexOf(self.textRecognitionTab), "Tab 2")
+        self.tabs.append(ImageRecognizerTab())  # first tab
         self.tabBar.setCurrentIndex(0)
+
+        self.tabBar.addTab(self.tabs[1].tab, "Image Recognition")
 
         self.mainLayout.addWidget(self.tabBar)
 
