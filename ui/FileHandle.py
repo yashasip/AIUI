@@ -10,10 +10,12 @@ class FileHandle:
         self.chooseFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
         self.fileTypeComboBox = QtWidgets.QComboBox(self.binaryFileSelectorFrame)
         self.viewFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
+        self.options=['-','.csv','.xlsx','.xlsm','.xlsb','.xls']
 
         self.filePath = None
 
         self.setupFileHandle()
+
 
     def setupFileHandle(self):
         self.binaryFileSelectorFrame.setGeometry(QtCore.QRect(-1, -1, 1211, 91))
@@ -30,9 +32,12 @@ class FileHandle:
         self.fileTypeComboBox.setGeometry(QtCore.QRect(980, 20, 91, 31))
         self.fileTypeComboBox.setToolTip("Choose File Type")
         self.fileTypeComboBox.setStatusTip("Select File Type")
+        self.fileTypeComboBox.addItems(self.options)
+
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
+        
 
     def openFile(self, fileFilter=None):
         import os
@@ -40,6 +45,7 @@ class FileHandle:
             parent=self.parentWidget,
             caption = 'Choose File',
             directory= os.getcwd(),
-            filter = 'CSV File( *.csv )'
+            filter = 'Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) '
         )
         self.filePath = fileObj[0]
+        self.filePathInputBox.setText(self.filePath)
