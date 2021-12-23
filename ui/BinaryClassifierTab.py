@@ -40,8 +40,27 @@ class BinaryClassifierTab:
 
         self.inputTableLayout = QtWidgets.QVBoxLayout(self.tableLayout)
         self.inputTableLayout.setContentsMargins(0, 0, 0, 0)
+        
+        self.tableHorizontalButtonsLayout = QtWidgets.QHBoxLayout(self.tableLayout)
+
+        self.tableButtonSpacer1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.tableButtonSpacer2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+
+
+        self.tableHorizontalButtonsLayout.addItem(self.tableButtonSpacer1)
+
+        self.saveBtn = QtWidgets.QPushButton("Save",self.tableLayout)
+        self.saveBtn.setGeometry(QtCore.QRect(640, 695, 101, 28))
+        self.tableHorizontalButtonsLayout.addWidget(self.saveBtn)
+
+        self.predictBtn = QtWidgets.QPushButton("Predict",self.tableLayout)
+        self.predictBtn.setGeometry(QtCore.QRect(640, 695, 101, 28))
+        self.tableHorizontalButtonsLayout.addWidget(self.predictBtn)
+
+        self.tableHorizontalButtonsLayout.addItem(self.tableButtonSpacer2)
 
         # input table set
         self.inputTable = DataTable(self.tableLayout)
         self.inputTableLayout.addWidget(self.inputTable.inputDataTable)
+        self.inputTableLayout.addLayout(self.tableHorizontalButtonsLayout)
         self.binaryInnerTabLayout.addWidget(self.binaryTabFrame)
