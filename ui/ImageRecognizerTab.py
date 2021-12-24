@@ -10,7 +10,7 @@ class ImageRecognizerTab:
     def setupImageRecognizerUi(self):
         self.tabLayout = QtWidgets.QWidget(self.tab)
         self.tabLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabLayout.setGeometry(QtCore.QRect(10, 10, 1221, 661))
+        self.tabLayout.setGeometry(QtCore.QRect(19, 9, 1199, 651))
         self.imageRecognitionLayout = QtWidgets.QVBoxLayout(self.tabLayout)
         self.imageRecognitionLayout.setContentsMargins(0, 0, 0, 0)
 

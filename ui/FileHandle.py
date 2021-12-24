@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 
 
 class FileHandle:
@@ -21,13 +22,14 @@ class FileHandle:
         self.binaryFileSelectorFrame.setGeometry(QtCore.QRect(-1, -1, 1211, 91))
 
         self.filePathInputBox.setGeometry(QtCore.QRect(210, 20, 761, 31))
+        self.filePathInputBox.setReadOnly(True)
 
         self.fileLabel.setGeometry(QtCore.QRect(180, 20, 31, 31))
         self.fileLabel.setText("File:")
 
         self.chooseFileButton.setGeometry(QtCore.QRect(560, 60, 93, 28))
         self.chooseFileButton.setText("Choose File")
-        self.chooseFileButton.clicked.connect(self.openFile)
+        self.chooseFileButton.clicked.connect(self.chooseFile)
 
         self.fileTypeComboBox.setGeometry(QtCore.QRect(980, 20, 91, 31))
         self.fileTypeComboBox.setToolTip("Choose File Type")
@@ -37,9 +39,9 @@ class FileHandle:
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
-        
+        self.viewFileButton.clicked.connect(self.viewFile)
 
-    def openFile(self, fileFilter=None):
+    def chooseFile(self, fileFilter=None):
         import os
         fileObj = QtWidgets.QFileDialog.getOpenFileName(
             parent=self.parentWidget,
@@ -47,5 +49,9 @@ class FileHandle:
             directory= os.getcwd(),
             filter = 'Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) '
         )
-        self.filePath = fileObj[0]
+        if fileObj[0]: # if no file is chosen / Cancel button is clicked
+            self.filePath = fileObj[0]
         self.filePathInputBox.setText(self.filePath)
+
+    def viewFile(self, fileFilter=None):
+        os.startfile(self.filePath)
