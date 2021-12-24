@@ -14,9 +14,9 @@ class BinaryClassifierTab:
         self.binaryInnerTabLayout = QtWidgets.QVBoxLayout(self.tabLayout)
         self.binaryTabFrame = QtWidgets.QFrame(self.tabLayout)
 
-        # Config components
+        # config components
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.binaryTabFrame)
-        self.ConfigLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
+        self.configLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         
         # Table & related Components
         self.tableLayout = QtWidgets.QWidget(self.binaryTabFrame)
@@ -28,8 +28,8 @@ class BinaryClassifierTab:
         self.tableButtonSpacer2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         
         # User Defined Components
-        self.FileHandler = FileHandle(self.binaryTabFrame)
-        self.Config = ConfigGroup(parent=self.horizontalLayoutWidget)
+        self.fileHandler = FileHandle(self.binaryTabFrame)
+        self.config = ConfigGroup(parent=self.horizontalLayoutWidget)
         self.inputTable = DataTable(self.tableLayout)
 
         self.setupBinaryClassifierTab()
@@ -42,14 +42,14 @@ class BinaryClassifierTab:
         self.binaryTabFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.binaryTabFrame.setFrameShadow(QtWidgets.QFrame.Raised)
 
-        # Config box layout
+        # config box layout
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(5, 78, 581, 561))
         self.horizontalLayoutWidget.setContentsMargins(0, 0, 0, 0)
 
-        self.ConfigLayout.setContentsMargins(0, 0, 0, 0)
+        self.configLayout.setContentsMargins(0, 0, 0, 0)
 
-        # Config Box
-        self.ConfigLayout.addWidget(self.Config.ConfigGroupBox)
+        # config Box
+        self.configLayout.addWidget(self.config.configGroupBox)
 
         # Table Layout
         self.tableLayout.setGeometry(QtCore.QRect(609, 99, 580, 540))
@@ -63,14 +63,14 @@ class BinaryClassifierTab:
         self.tableHorizontalButtonsLayout.addItem(self.tableButtonSpacer2)
 
         # input table & related components set
-        self.inputTableLayout.addWidget(self.inputTable.inputDataTable)
+        self.inputTableLayout.addWidget(self.inputTable.table)
         self.inputTableLayout.addLayout(self.tableHorizontalButtonsLayout)
         self.binaryInnerTabLayout.addWidget(self.binaryTabFrame)
 
-        self.FileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
+        self.fileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
 
         
     def setupFunctionalComponents(self):
-        self.chosenFile = DataRecordFile(self.FileHandler.filePath)
-        self.Config.setupOutcomeHeaders(self.chosenFile.headers)
-        self.inputTable.inputDataTable.setEnabled(True)
+        self.chosenFile = DataRecordFile(self.fileHandler.filePath)
+        self.config.setupOutcomeHeaders(self.chosenFile.headers)
+        self.inputTable.table.setEnabled(True)

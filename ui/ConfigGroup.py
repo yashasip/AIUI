@@ -5,26 +5,26 @@ from ui.ModelConfigGroup import ModelConfigGroup
 
 class ConfigGroup:
     def __init__(self, parent) -> None:
-        self.ConfigGroupBox = QtWidgets.QGroupBox(parent)
+        self.configGroupBox = QtWidgets.QGroupBox(parent)
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.outcomeHeader = QtWidgets.QLabel(self.ConfigGroupBox)
-        self.outcomeHeaderComboBox = QtWidgets.QComboBox(self.ConfigGroupBox)
+        self.outcomeHeader = QtWidgets.QLabel(self.configGroupBox)
+        self.outcomeHeaderComboBox = QtWidgets.QComboBox(self.configGroupBox)
 
         self.attributesListView = QtWidgets.QListView(self.scrollAreaWidgetContents)
         self.attributesCheckBox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
 
-        self.attributesScrollArea = QtWidgets.QScrollArea(self.ConfigGroupBox)
+        self.attributesScrollArea = QtWidgets.QScrollArea(self.configGroupBox)
         self.checkBox_2 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.selectSheet = QtWidgets.QLabel(self.ConfigGroupBox)
-        self.attributeSelectionLabel = QtWidgets.QLabel(self.ConfigGroupBox)
-        self.selectSheetComboBox = QtWidgets.QComboBox(self.ConfigGroupBox)
+        self.selectSheet = QtWidgets.QLabel(self.configGroupBox)
+        self.attributeSelectionLabel = QtWidgets.QLabel(self.configGroupBox)
+        self.selectSheetComboBox = QtWidgets.QComboBox(self.configGroupBox)
 
-        self.ModelConfig = ModelConfigGroup(self.ConfigGroupBox)
+        self.ModelConfig = ModelConfigGroup(self.configGroupBox)
 
         self.setupConfigGroupUi()
 
     def setupConfigGroupUi(self):
-        self.ConfigGroupBox.setTitle("Config")
+        self.configGroupBox.setTitle("Config")
 
         self.outcomeHeader.setGeometry(QtCore.QRect(20, 30, 101, 31))
         self.outcomeHeader.setText("Outcome Header")
@@ -56,4 +56,6 @@ class ConfigGroup:
     def setupOutcomeHeaders(self,header_choices):
         self.outcomeHeaderComboBox.clear()
         self.outcomeHeaderComboBox.addItems(header_choices)
+
+    
 
