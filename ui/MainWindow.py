@@ -49,3 +49,6 @@ class MainWindow(object):
         self.mainWindow.setCentralWidget(self.centralwidget)
 
         QtCore.QMetaObject.connectSlotsByName(self.mainWindow)
+
+        #Disabling maximise button
+        self.mainWindow.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
