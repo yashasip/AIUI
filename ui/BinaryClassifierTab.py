@@ -73,4 +73,5 @@ class BinaryClassifierTab:
     def setupFunctionalComponents(self):
         self.chosenFile = DataRecordFile(self.fileHandler.filePath)
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
+        self.config.setupHeadersListBox()
         self.inputTable.table.setEnabled(True)
