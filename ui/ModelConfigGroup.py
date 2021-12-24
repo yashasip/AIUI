@@ -30,7 +30,18 @@ class ModelConfigGroup:
         self.trainButton.setGeometry(QtCore.QRect(240, 300, 101, 28))
         self.trainButton.setText("Train")
 
+        #setting epoch spinner box values
         self.epochsSpinBox.setGeometry(QtCore.QRect(170, 40, 91, 31))
+        self.maximum=10000
+        self.minimum=1000
+        self.value=5000
+        
+        self.epochsSpinBox.setMaximum(self.maximum)
+        self.epochsSpinBox.setMinimum(self.minimum)
+        self.epochsSpinBox.setValue(self.value)
+
+
+
 
         self.EpochsLabel.setGeometry(QtCore.QRect(30, 40, 51, 31))
         self.EpochsLabel.setText("Epochs")
