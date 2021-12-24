@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import os
 
 
 class FileHandle:
@@ -37,7 +38,7 @@ class FileHandle:
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
-        
+        self.viewFileButton.clicked.connect(self.viewFile)
 
     def openFile(self, fileFilter=None):
         import os
@@ -49,3 +50,6 @@ class FileHandle:
         )
         self.filePath = fileObj[0]
         self.filePathInputBox.setText(self.filePath)
+
+    def viewFile(self, fileFilter=None):
+        os.startfile(self.filePath)
