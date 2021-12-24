@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from handle.DataRecordFile import DataRecordFile
 
 from ui.FileHandle import FileHandle
 from ui.ConfigGroup import ConfigGroup
@@ -65,3 +66,11 @@ class BinaryClassifierTab:
         self.inputTableLayout.addWidget(self.inputTable.inputDataTable)
         self.inputTableLayout.addLayout(self.tableHorizontalButtonsLayout)
         self.binaryInnerTabLayout.addWidget(self.binaryTabFrame)
+
+        self.FileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
+
+        
+    def setupFunctionalComponents(self):
+        self.chosenFile = DataRecordFile(self.FileHandler.filePath)
+        self.Config.setupOutcomeHeaders(self.chosenFile.headers)
+        self.inputTable.inputDataTable.setEnabled(True)
