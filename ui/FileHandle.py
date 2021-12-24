@@ -28,7 +28,7 @@ class FileHandle:
 
         self.chooseFileButton.setGeometry(QtCore.QRect(560, 60, 93, 28))
         self.chooseFileButton.setText("Choose File")
-        self.chooseFileButton.clicked.connect(self.openFile)
+        self.chooseFileButton.clicked.connect(self.chooseFile)
 
         self.fileTypeComboBox.setGeometry(QtCore.QRect(980, 20, 91, 31))
         self.fileTypeComboBox.setToolTip("Choose File Type")
@@ -40,7 +40,7 @@ class FileHandle:
         self.viewFileButton.setText("View")
         
 
-    def openFile(self, fileFilter=None):
+    def chooseFile(self, fileFilter=None):
         import os
         fileObj = QtWidgets.QFileDialog.getOpenFileName(
             parent=self.parentWidget,
