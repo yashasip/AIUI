@@ -48,5 +48,6 @@ class FileHandle:
             directory= os.getcwd(),
             filter = 'Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) '
         )
-        self.filePath = fileObj[0]
+        if fileObj[0]: # if no file is chosen / Cancel button is clicked
+            self.filePath = fileObj[0]
         self.filePathInputBox.setText(self.filePath)
