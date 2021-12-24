@@ -14,7 +14,7 @@ class ConfigGroup:
         self.attributeSelectionLabel = QtWidgets.QLabel(self.configGroupBox)
         self.selectSheetComboBox = QtWidgets.QComboBox(self.configGroupBox)
 
-        self.ModelConfig = ModelConfigGroup(self.configGroupBox)
+        self.modelConfig = ModelConfigGroup(self.configGroupBox)
 
         self.setupConfigGroupUi()
 
