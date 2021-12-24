@@ -52,3 +52,8 @@ class ConfigGroup:
         self.selectSheet.setText("Select Sheet")
 
         self.selectSheetComboBox.setGeometry(QtCore.QRect(390, 30, 171, 31))
+
+    def setupOutcomeHeaders(self,header_choices):
+        self.outcomeHeaderComboBox.clear()
+        self.outcomeHeaderComboBox.addItems(header_choices)
+
