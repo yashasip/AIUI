@@ -11,7 +11,7 @@ class ConfigGroup:
         self.outcomeHeaderComboBox = QtWidgets.QComboBox(self.configGroupBox)
 
         self.selectSheet = QtWidgets.QLabel(self.configGroupBox)
-        self.attributeSelectionLabel = QtWidgets.QLabel(self.configGroupBox)
+        self.headersSelectionLabel = QtWidgets.QLabel(self.configGroupBox)
         self.headersListBox = QtWidgets.QListWidget(self.configGroupBox)
 
         self.selectSheetComboBox = QtWidgets.QComboBox(self.configGroupBox)
@@ -29,8 +29,8 @@ class ConfigGroup:
         self.outcomeHeaderComboBox.setGeometry(QtCore.QRect(130, 30, 171, 31))
         self.outcomeHeaderComboBox.currentTextChanged.connect(self.setupHeadersListBox)
 
-        self.attributeSelectionLabel.setGeometry(QtCore.QRect(20, 70, 111, 31))
-        self.attributeSelectionLabel.setText("Attributes Selection")
+        self.headersSelectionLabel.setGeometry(QtCore.QRect(20, 70, 111, 31))
+        self.headersSelectionLabel.setText("Select Headers")
         
         self.headersListBox.setGeometry(QtCore.QRect(20, 102, 521, 81))
         self.headersListBox.setSelectionMode(QtWidgets.QListWidget.MultiSelection)
