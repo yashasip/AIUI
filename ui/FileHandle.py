@@ -21,6 +21,7 @@ class FileHandle:
         self.binaryFileSelectorFrame.setGeometry(QtCore.QRect(-1, -1, 1211, 91))
 
         self.filePathInputBox.setGeometry(QtCore.QRect(210, 20, 761, 31))
+        self.filePathInputBox.setReadOnly(True)
 
         self.fileLabel.setGeometry(QtCore.QRect(180, 20, 31, 31))
         self.fileLabel.setText("File:")
