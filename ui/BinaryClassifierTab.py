@@ -68,6 +68,8 @@ class BinaryClassifierTab:
         self.binaryInnerTabLayout.addWidget(self.binaryTabFrame)
 
         self.fileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
+        self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
+        self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
 
         
     def setupFunctionalComponents(self):
