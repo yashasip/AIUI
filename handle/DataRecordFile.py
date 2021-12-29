@@ -6,7 +6,8 @@ class DataRecordFile:
     def __init__(self, filePath) -> None:
         self.filePath = filePath
         self.fileType = self.getFileType()
-        self.file = self.setupFile()
+        
+        self.setupFile()
 
     def getFileType(self):
         for index, character in enumerate(self.filePath[::-1]):
@@ -15,9 +16,9 @@ class DataRecordFile:
 
     def setupFile(self):
         if self.fileType in ["xlsx", "xlsm", "xlsb", "xls"]:
-            return self.setupXL()
+            self.setupXL()
         else:
-            return self.setupCSV()
+            self.setupCSV()
 
     def setupXL(self):
         self.file = openpyxl.load_workbook(self.filePath)
