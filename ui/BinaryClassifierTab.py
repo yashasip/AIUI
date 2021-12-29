@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from handle.DataRecordFile import DataRecordFile
+from logic.DataPredictor import DataPredictor
 
 from ui.FileHandle import FileHandle
 from ui.ConfigGroup import ConfigGroup
@@ -70,6 +71,7 @@ class BinaryClassifierTab:
         self.fileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
         self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
         self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
+        self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
 
         
     def setupFunctionalComponents(self):
@@ -77,3 +79,11 @@ class BinaryClassifierTab:
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
         self.config.setupHeadersListBox()
         self.inputTable.table.setEnabled(True)
+        print(self.chosenFile.fileType)
+
+    
+    def trainModel(self):
+        print(self.chosenFile)
+        self.predictor = DataPredictor(self.chosenFile,list(self.config.headersListBox.selectedItems()), self.config.outcomeHeaderComboBox.currentText(), self.config.modelConfig.epochsSpinBox.value())
+
+        self.predictor.trainModel()
