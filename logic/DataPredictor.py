@@ -59,7 +59,7 @@ class DataPredictor:
         inputData = pd.DataFrame(inputData)
         inputData = pd.DataFrame(self.norm.transform(inputData))
         output = self.model.predict(inputData)
-        print(output)
+        return [float(item) for item in list(output)]
 
     
     def trainModel(self):
