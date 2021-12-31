@@ -72,6 +72,7 @@ class BinaryClassifierTab:
         self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
         self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
+        self.predictBtn.clicked.connect(self.prediction)
 
         
     def setupFunctionalComponents(self):
@@ -79,11 +80,15 @@ class BinaryClassifierTab:
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
         self.config.setupHeadersListBox()
         self.inputTable.table.setEnabled(True)
-        print(self.chosenFile.fileType)
 
     
     def trainModel(self):
-        print(self.chosenFile)
         self.predictor = DataPredictor(self.chosenFile,list(self.config.headersListBox.selectedItems()), self.config.outcomeHeaderComboBox.currentText(), self.config.modelConfig.epochsSpinBox.value())
 
         self.predictor.trainModel()
+
+    def prediction(self):
+        print(self.inputTable.getTableData())
+        predictions = self.predictor.predict(self.inputTable.getTableData())
+        print(predictions)
+        self.inputTable.setResultCells(predictions)
