@@ -58,8 +58,8 @@ class DataPredictor:
     def predict(self, inputData):
         inputData = pd.DataFrame(inputData)
         inputData = pd.DataFrame(self.norm.transform(inputData))
-        output = self.model.predict(inputData)
-        return [float(item) for item in list(output)]
+        predictions = self.model.predict(inputData)
+        return [float(item) for item in list(predictions)]
 
     
     def trainModel(self):
