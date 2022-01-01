@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from handle.FileHandle import FileHandle
 
 class ImageRecognizerTab:
     def __init__(self) -> None:
@@ -32,6 +33,10 @@ class ImageRecognizerTab:
         self.pushButton = QtWidgets.QPushButton(self.imageRecognitionFrame)
         self.imageRecognitionLine5 = QtWidgets.QFrame(self.imageRecognitionFrame)
 
+        self.imageFilters = "Image File (*.jpg *.jpeg *.png) "
+
+        self.fileHandler = FileHandle(self.imageRecognitionFrame, self.imageFilters)
+
         self.setupImageRecognizerUi()
 
     def setupImageRecognizerUi(self):
@@ -48,11 +53,13 @@ class ImageRecognizerTab:
         self.imageSelectorFrame.setFrameShadow(QtWidgets.QFrame.Raised)
 
         self.imagePathInputBox.setGeometry(QtCore.QRect(270, 10, 601, 31))
+        self.imagePathInputBox.setReadOnly(True)
 
         self.imageFileLabel.setGeometry(QtCore.QRect(190, 10, 71, 31))
         self.imageFileLabel.setText("Image File:")
 
         self.chooseImageBtn.setGeometry(QtCore.QRect(880, 10, 93, 31))
+        self.chooseImageBtn.clicked.connect(self.getImage)
         self.chooseImageBtn.setText("Choose Image")
 
         self.imageRecognitionLine1.setGeometry(QtCore.QRect(0, 60, 1221, 20))
@@ -114,3 +121,10 @@ class ImageRecognizerTab:
         self.imageRecognitionLine5.setFrameShadow(QtWidgets.QFrame.Sunken)
 
         self.imageRecognitionLayout.addWidget(self.imageRecognitionFrame)
+
+    
+    def getImage(self):
+        self.imagePath = self.fileHandler.chooseFile()
+        self.imagePathInputBox.setText(self.imagePath)
+
+    
