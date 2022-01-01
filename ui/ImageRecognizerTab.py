@@ -126,5 +126,8 @@ class ImageRecognizerTab:
     def getImage(self):
         self.imagePath = self.fileHandler.chooseFile()
         self.imagePathInputBox.setText(self.imagePath)
+        image = QtGui.QPixmap(self.imagePath)
+        self.imageViewBox.setPixmap(image)
+        self.imageViewBox.setScaledContents(True)
 
     
