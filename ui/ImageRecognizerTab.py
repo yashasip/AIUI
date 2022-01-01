@@ -19,6 +19,7 @@ class ImageRecognizerTab:
         self.facialRecognitionRadioBtn = QtWidgets.QRadioButton(
             self.recognizingTypeFrame
         )
+        self.recognitionTypeGroup = QtWidgets.QButtonGroup(self.imageRecognitionFrame)
         self.imageRecognitionLine2 = QtWidgets.QFrame(self.recognizingTypeFrame)
         self.imageViewBox = QtWidgets.QLabel(self.imageRecognitionFrame)
         self.imageRecognitionLine3 = QtWidgets.QFrame(self.imageRecognitionFrame)
@@ -76,12 +77,15 @@ class ImageRecognizerTab:
         self.taggingRadioBtn.setGeometry(QtCore.QRect(430, 10, 95, 20))
         self.taggingRadioBtn.setChecked(True)
         self.taggingRadioBtn.setText("Tagging")
+        self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
 
         self.categorizeRadioBtn.setGeometry(QtCore.QRect(580, 10, 111, 20))
         self.categorizeRadioBtn.setText("Catergorize")
+        self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
 
         self.facialRecognitionRadioBtn.setGeometry(QtCore.QRect(760, 10, 141, 20))
         self.facialRecognitionRadioBtn.setText("Facial Recognition")
+        self.recognitionTypeGroup.addButton(self.facialRecognitionRadioBtn)
 
         self.imageRecognitionLine2.setGeometry(QtCore.QRect(0, 30, 1221, 20))
         self.imageRecognitionLine2.setFrameShape(QtWidgets.QFrame.HLine)
