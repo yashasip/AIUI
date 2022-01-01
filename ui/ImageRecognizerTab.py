@@ -77,15 +77,17 @@ class ImageRecognizerTab:
         self.taggingRadioBtn.setGeometry(QtCore.QRect(430, 10, 95, 20))
         self.taggingRadioBtn.setChecked(True)
         self.taggingRadioBtn.setText("Tagging")
-        self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
 
         self.categorizeRadioBtn.setGeometry(QtCore.QRect(580, 10, 111, 20))
         self.categorizeRadioBtn.setText("Catergorize")
-        self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
 
         self.facialRecognitionRadioBtn.setGeometry(QtCore.QRect(760, 10, 141, 20))
         self.facialRecognitionRadioBtn.setText("Facial Recognition")
+
+        self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
+        self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
         self.recognitionTypeGroup.addButton(self.facialRecognitionRadioBtn)
+        self.recognitionTypeGroup.buttonClicked.connect(self.setResultHeadingLabel)
 
         self.imageRecognitionLine2.setGeometry(QtCore.QRect(0, 30, 1221, 20))
         self.imageRecognitionLine2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -101,7 +103,7 @@ class ImageRecognizerTab:
         self.imageRecognitionLine3.setFrameShape(QtWidgets.QFrame.HLine)
         self.imageRecognitionLine3.setFrameShadow(QtWidgets.QFrame.Sunken)
 
-        self.resultHeadingLabel.setGeometry(QtCore.QRect(570, 500, 51, 21))
+        self.resultHeadingLabel.setGeometry(QtCore.QRect(570, 500, 130, 21))
         self.resultHeadingLabel.setText("Tagging")
 
         self.imageRecognitionLine4.setGeometry(QtCore.QRect(0, 520, 1221, 16))
@@ -134,4 +136,9 @@ class ImageRecognizerTab:
         self.imageViewBox.setPixmap(image)
         self.imageViewBox.setScaledContents(True)
 
+    
+    def setResultHeadingLabel(self):
+        checked_button = self.recognitionTypeGroup.checkedButton()
+        self.resultHeadingLabel.setText(checked_button.text())
+        self.resultHeadingLabel.setScaledContents(True)
     
