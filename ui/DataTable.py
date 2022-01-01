@@ -25,6 +25,8 @@ class DataTable:
 
         self.table.setColumnCount(len(self.headers))
         self.table.setHorizontalHeaderLabels(self.headers)
+        self.table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+
 
         self.setupTableCells()
 
@@ -63,5 +65,9 @@ class DataTable:
     def setResultCells(self, predictions):
         column = self.table.columnCount() - 1
 
+
         for row in range(self.table.rowCount()):
             self.table.item(row,column).setText(str(predictions[row]))
+    
+    #RESIZING COLUMNS EVERYTIME ITS UPDATED
+        self.table.resizeColumnsToContents()
