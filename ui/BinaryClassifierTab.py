@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from handle.DataRecordFile import DataRecordFile
 from logic.DataPredictor import DataPredictor
 
-from ui.FileHandle import FileHandle
+from ui.BinaryClassifierInput import BinaryClassifierInput
 from ui.ConfigGroup import ConfigGroup
 from ui.DataTable import DataTable
 
@@ -29,7 +29,7 @@ class BinaryClassifierTab:
         self.tableButtonSpacer2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         
         # User Defined Components
-        self.fileHandler = FileHandle(self.binaryTabFrame)
+        self.fileHandler = BinaryClassifierInput(self.binaryTabFrame)
         self.config = ConfigGroup(parent=self.horizontalLayoutWidget)
         self.inputTable = DataTable(self.tableLayout)
 

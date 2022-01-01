@@ -1,8 +1,8 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-import os
+from PyQt5 import QtCore, QtWidgets
+from handle.FileHandle import FileHandle
 
 
-class FileHandle:
+class BinaryClassifierInput:
     def __init__(self, parent) -> None:
         self.parentWidget = parent
         self.binaryFileSelectorFrame = QtWidgets.QFrame(self.parentWidget)
@@ -11,12 +11,13 @@ class FileHandle:
         self.chooseFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
         self.fileTypeComboBox = QtWidgets.QComboBox(self.binaryFileSelectorFrame)
         self.viewFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
-        self.options=['-','.csv','.xlsx','.xlsm','.xlsb','.xls']
 
+        self.fileFilter = "Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) "
         self.filePath = None
 
-        self.setupFileHandle()
+        self.fileHandler = FileHandle(parent, self.fileFilter)
 
+        self.setupFileHandle()
 
     def setupFileHandle(self):
         self.binaryFileSelectorFrame.setGeometry(QtCore.QRect(-1, -1, 1211, 91))
@@ -29,29 +30,17 @@ class FileHandle:
 
         self.chooseFileButton.setGeometry(QtCore.QRect(560, 60, 93, 28))
         self.chooseFileButton.setText("Choose File")
-        self.chooseFileButton.clicked.connect(self.chooseFile)
+        self.chooseFileButton.clicked.connect(self.getFilePath)
 
         self.fileTypeComboBox.setGeometry(QtCore.QRect(980, 20, 91, 31))
         self.fileTypeComboBox.setToolTip("Choose File Type")
         self.fileTypeComboBox.setStatusTip("Select File Type")
-        self.fileTypeComboBox.addItems(self.options)
-
+        # self.fileTypeComboBox.addItems(self.options)
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
-        self.viewFileButton.clicked.connect(self.viewFile)
+        self.viewFileButton.clicked.connect(self.fileHandler.viewFile)
 
-    def chooseFile(self, fileFilter=None):
-        import os
-        fileObj = QtWidgets.QFileDialog.getOpenFileName(
-            parent=self.parentWidget,
-            caption = 'Choose File',
-            directory= os.getcwd(),
-            filter = 'Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) '
-        )
-        if fileObj[0]: # if no file is chosen / Cancel button is clicked
-            self.filePath = fileObj[0]
+    def getFilePath(self):
+        self.filePath = self.fileHandler.chooseFile()
         self.filePathInputBox.setText(self.filePath)
-
-    def viewFile(self, fileFilter=None):
-        os.startfile(self.filePath)
