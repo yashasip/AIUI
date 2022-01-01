@@ -9,7 +9,6 @@ class BinaryClassifierInput:
         self.filePathInputBox = QtWidgets.QLineEdit(self.binaryFileSelectorFrame)
         self.fileLabel = QtWidgets.QLabel(self.binaryFileSelectorFrame)
         self.chooseFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
-        self.fileTypeComboBox = QtWidgets.QComboBox(self.binaryFileSelectorFrame)
         self.viewFileButton = QtWidgets.QPushButton(self.binaryFileSelectorFrame)
 
         self.fileFilter = "Data Record File(*.csv *.xlsx *.xlsm *.xlsb *.xls) "
@@ -31,11 +30,6 @@ class BinaryClassifierInput:
         self.chooseFileButton.setGeometry(QtCore.QRect(560, 60, 93, 28))
         self.chooseFileButton.setText("Choose File")
         self.chooseFileButton.clicked.connect(self.getFilePath)
-
-        self.fileTypeComboBox.setGeometry(QtCore.QRect(980, 20, 91, 31))
-        self.fileTypeComboBox.setToolTip("Choose File Type")
-        self.fileTypeComboBox.setStatusTip("Select File Type")
-        # self.fileTypeComboBox.addItems(self.options)
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
