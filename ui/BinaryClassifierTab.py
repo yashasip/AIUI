@@ -88,7 +88,5 @@ class BinaryClassifierTab:
         self.predictor.trainModel()
 
     def prediction(self):
-        print(self.inputTable.getTableData())
         predictions = self.predictor.predict(self.inputTable.getTableData())
-        print(predictions)
         self.inputTable.setResultCells(predictions)
