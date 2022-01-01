@@ -18,6 +18,10 @@ class ModelConfigGroup:
         self.standardizationRadioButton = QtWidgets.QRadioButton(self.ModelConfigBox)
         self.scalingLabel = QtWidgets.QLabel(self.ModelConfigBox)
 
+        self.maximumEpochsSpinBox=10000
+        self.minimumEpochsSpinBox=1000
+        self.defaultSpinBoxValue=5000
+
         self.setupModelConfigUi()
 
     def setupModelConfigUi(self):
@@ -31,14 +35,10 @@ class ModelConfigGroup:
         self.trainButton.setText("Train")
 
         #setting epoch spinner box values
-        self.epochsSpinBox.setGeometry(QtCore.QRect(170, 40, 91, 31))
-        self.maximum=10000
-        self.minimum=1000
-        self.value=5000
-        
-        self.epochsSpinBox.setMaximum(self.maximum)
-        self.epochsSpinBox.setMinimum(self.minimum)
-        self.epochsSpinBox.setValue(self.value)
+        self.epochsSpinBox.setGeometry(QtCore.QRect(170, 40, 91, 31))        
+        self.epochsSpinBox.setMaximum(self.maximumEpochsSpinBox)
+        self.epochsSpinBox.setMinimum(self.minimumEpochsSpinBox)
+        self.epochsSpinBox.setValue(self.defaultSpinBoxValue)
 
 
 
