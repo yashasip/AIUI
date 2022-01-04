@@ -42,7 +42,7 @@ class ConfigGroup:
 
     def setupOutcomeHeaders(self,header_choices):
         self.outcomeHeaderComboBox.clear()
-        self.outcomeHeaderComboBox.addItems(header_choices)
+        self.outcomeHeaderComboBox.addItems(reversed(header_choices))
 
     def setupHeadersListBox(self):
         self.headersListBox.clear()
