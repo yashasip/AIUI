@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from handle.FileHandle import FileHandle
+from handle.ImaggaAPIHandler import ImaggaAPIHandler
 
 class ImageRecognizerTab:
     def __init__(self) -> None:
@@ -38,6 +39,9 @@ class ImageRecognizerTab:
 
         self.fileHandler = FileHandle(self.imageRecognitionFrame, self.imageFilters)
 
+        self.recognitionType = None
+        self.resultLabels = [QtWidgets.QLabel(self.imageRecognitionFrame) for i in range(4)]
+
         self.setupImageRecognizerUi()
 
     def setupImageRecognizerUi(self):
@@ -55,6 +59,7 @@ class ImageRecognizerTab:
 
         self.imagePathInputBox.setGeometry(QtCore.QRect(270, 10, 601, 31))
         self.imagePathInputBox.setReadOnly(True)
+        # self.imagePathInputBox.textChanged.connect(self.runRecognizer)
 
         self.imageFileLabel.setGeometry(QtCore.QRect(190, 10, 71, 31))
         self.imageFileLabel.setText("Image File:")
@@ -75,7 +80,6 @@ class ImageRecognizerTab:
         self.recogntionTypeLabel.setText("Recognition Type:")
 
         self.taggingRadioBtn.setGeometry(QtCore.QRect(430, 10, 95, 20))
-        self.taggingRadioBtn.setChecked(True)
         self.taggingRadioBtn.setText("Tagging")
 
         self.categorizeRadioBtn.setGeometry(QtCore.QRect(580, 10, 111, 20))
@@ -87,7 +91,7 @@ class ImageRecognizerTab:
         self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
         self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
         self.recognitionTypeGroup.addButton(self.facialRecognitionRadioBtn)
-        self.recognitionTypeGroup.buttonClicked.connect(self.setResultHeadingLabel)
+        self.recognitionTypeGroup.buttonClicked.connect(self.runRecognizer)
 
         self.imageRecognitionLine2.setGeometry(QtCore.QRect(0, 30, 1221, 20))
         self.imageRecognitionLine2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -110,15 +114,6 @@ class ImageRecognizerTab:
         self.imageRecognitionLine4.setFrameShape(QtWidgets.QFrame.HLine)
         self.imageRecognitionLine4.setFrameShadow(QtWidgets.QFrame.Sunken)
 
-        self.resultLabel.setGeometry(QtCore.QRect(430, 540, 31, 21))
-        self.resultLabel.setText("Tag")
-
-        self.accuracyLabel.setGeometry(QtCore.QRect(430, 570, 55, 16))
-        self.accuracyLabel.setText("Accuracy")
-
-        self.extraLabel.setGeometry(QtCore.QRect(430, 600, 55, 16))
-        self.extraLabel.setText("TextLabel")
-
         self.pushButton.setGeometry(QtCore.QRect(530, 620, 151, 28))
         self.pushButton.setText("Show Additional Tags")
 
@@ -136,9 +131,31 @@ class ImageRecognizerTab:
         self.imageViewBox.setPixmap(image)
         self.imageViewBox.setScaledContents(True)
 
-    
-    def setResultHeadingLabel(self):
-        checked_button = self.recognitionTypeGroup.checkedButton()
-        self.resultHeadingLabel.setText(checked_button.text())
-        self.resultHeadingLabel.setScaledContents(True)
+    def runRecognizer(self):
+        self.recognitionType = self.recognitionTypeGroup.checkedButton().text()
+        self.setResultHeaderLabel()
+
+        if self.imagePath == None:
+            return
+
+        apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
+        self.resultData = apiHandler.APIHandle()
+        print(self.resultData)
+        self.displayResults()
+
+    def displayResults(self):
+        for item in self.resultLabels:
+            item.setText('')
+            
+        # if no people present won't work, fd won't work, align the labels, overflow block
+        for item, index  in zip(self.resultData[0].items(),range(len(self.resultData[0]))):
+            key, value = item
+            self.resultLabels[index].setGeometry(QtCore.QRect(540, 540 + 30 * index, 300, 21))
+            self.resultLabels[index].setText(key + ': ' + value) 
+
+
+    def setResultHeaderLabel(self):
+        self.resultHeadingLabel.setText(self.recognitionType)
+
+        
     
