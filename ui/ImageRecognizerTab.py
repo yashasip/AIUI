@@ -83,10 +83,10 @@ class ImageRecognizerTab:
         self.taggingRadioBtn.setText("Tagging")
 
         self.categorizeRadioBtn.setGeometry(QtCore.QRect(580, 10, 111, 20))
-        self.categorizeRadioBtn.setText("Catergorize")
+        self.categorizeRadioBtn.setText("Categorize")
 
         self.facialRecognitionRadioBtn.setGeometry(QtCore.QRect(760, 10, 141, 20))
-        self.facialRecognitionRadioBtn.setText("Facial Recognition")
+        self.facialRecognitionRadioBtn.setText("Facial Detection")
 
         self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
         self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
@@ -146,7 +146,7 @@ class ImageRecognizerTab:
     def displayResults(self):
         for item in self.resultLabels:
             item.setText('')
-            
+
         # if no people present won't work, fd won't work, align the labels, overflow block
         for item, index  in zip(self.resultData[0].items(),range(len(self.resultData[0]))):
             key, value = item
