@@ -36,7 +36,7 @@ class ImaggaAPIHandler:
         self.resultJson = response.json()
         # print(self.resultJson)
 
-    def imageFacialRecognition(self):
+    def imageFacialDetection(self):
         response = requests.get(
         'https://api.imagga.com/v2/faces/detections?image_upload_id=%s&return_face_attributes=1' % (self.uploadId),
         auth=(API_KEY, API_SECRET))
@@ -60,7 +60,7 @@ class ImaggaAPIHandler:
 
                 parsedResultData.append(parsedData)
 
-        elif self.recognitionType == 'Catergorize':
+        elif self.recognitionType == 'Categorize':
             parsedResultData = []
             print(type(self.resultJson["result"]["categories"]))
             for item in self.resultJson["result"]["categories"]:
@@ -70,7 +70,7 @@ class ImaggaAPIHandler:
 
                 parsedResultData.append(parsedData)
 
-        elif self.recognitionType == 'Facial Recognition':
+        elif self.recognitionType == 'Facial Detection':
             parsedResultData = []
 
             for item in self.resultJson["result"]["faces"]:
@@ -93,10 +93,10 @@ class ImaggaAPIHandler:
         self.uploadImage()
         if self.recognitionType == 'Tagging':
             self.imageTagging()
-        elif self.recognitionType == 'Catergorize':
+        elif self.recognitionType == 'Categorize':
             self.imageCategorizer()
-        elif self.recognitionType == 'Facial Recognition':
-            self.imageFacialRecognition()
+        elif self.recognitionType == 'Facial Detection':
+            self.imageFacialDetection()
         else:
             raise Exception('Invalid Recognition Option')
 
