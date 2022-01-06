@@ -21,9 +21,6 @@ class DataRecordFile:
         else:
             self.setupCSV()
 
-    def setupXL(self):
-        self.file = openpyxl.load_workbook(self.filePath)
-        self.sheetNames = self.file.sheetnames
 
     def setupCSV(self):
         self.file = csv.DictReader(open(self.filePath))
