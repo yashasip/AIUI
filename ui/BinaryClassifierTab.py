@@ -1,3 +1,4 @@
+import csv
 from PyQt5 import QtCore, QtGui, QtWidgets
 from handle.DataRecordFile import DataRecordFile
 from logic.DataPredictor import DataPredictor
@@ -77,6 +78,8 @@ class BinaryClassifierTab:
         
     def setupFunctionalComponents(self):
         self.chosenFile = DataRecordFile(self.fileHandler.filePath)
+        if(self.chosenFile.fileType!='csv'):
+            self.config.setupselectSheetComboBox(self.chosenFile.sheetNames)
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
         self.config.setupHeadersListBox()
         self.inputTable.table.setEnabled(True)

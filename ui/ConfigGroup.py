@@ -2,6 +2,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from ui.ModelConfigGroup import ModelConfigGroup
 
+import handle.DataRecordFile
+
 
 class ConfigGroup:
     def __init__(self, parent) -> None:
@@ -49,5 +51,7 @@ class ConfigGroup:
         headersList = [self.outcomeHeaderComboBox.itemText(i) for i in range(self.outcomeHeaderComboBox.count())]
         headersList.remove(self.outcomeHeaderComboBox.currentText())
         self.headersListBox.addItems(headersList)
-    
-
+     
+    def setupselectSheetComboBox(self,sheetNames):
+        self.selectSheetComboBox.clear()
+        self.selectSheetComboBox.addItems(sheetNames)

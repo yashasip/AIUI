@@ -2,11 +2,12 @@ import csv
 import openpyxl
 
 
+
 class DataRecordFile:
     def __init__(self, filePath) -> None:
         self.filePath = filePath
         self.fileType = self.getFileType()
-        
+        self.sheetNames=[]
         self.setupFile()
 
     def getFileType(self):
@@ -32,12 +33,13 @@ class DataRecordFile:
         self.file = openpyxl.load_workbook(self.filePath)
         self.sheetNames = self.file.sheetnames
         self.sheet = self.file.active
-        self.headers = self.setupHeaders(
-            [cell.value for cell in list(self.sheet.rows)[0]]
-        )
+        self.headers = ['a','b']
 
     def setupHeaders(self, headerRow):
         for header in headerRow:
             if header.isdecimal():
                 return [f"Header {chr(65+i)}" for i in range(len(headerRow))]
         return headerRow
+
+
+
