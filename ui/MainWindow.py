@@ -52,3 +52,5 @@ class MainWindow(object):
 
         #Disabling maximise button
         self.mainWindow.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.WindowMinimizeButtonHint)
+        windowIcon = QtGui.QIcon('icon\\aiui-icon.png')
+        self.mainWindow.setWindowIcon(windowIcon)
