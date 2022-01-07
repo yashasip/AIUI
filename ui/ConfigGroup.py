@@ -44,7 +44,8 @@ class ConfigGroup:
 
     def setupOutcomeHeaders(self,header_choices):
         self.outcomeHeaderComboBox.clear()
-        self.outcomeHeaderComboBox.addItems(reversed(header_choices))
+        self.outcomeHeaderComboBox.addItems(header_choices)
+        self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices)-1)
 
     def setupHeadersListBox(self):
         self.headersListBox.clear()
