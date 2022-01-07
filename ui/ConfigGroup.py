@@ -48,8 +48,12 @@ class ConfigGroup:
         self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices)-1)
 
     def setupHeadersListBox(self):
-        self.headersListBox.clear()
         headersList = [self.outcomeHeaderComboBox.itemText(i) for i in range(self.outcomeHeaderComboBox.count())]
+        
+        if not headersList: # if no items, no items to setup
+            return
+        
+        self.headersListBox.clear()
         headersList.remove(self.outcomeHeaderComboBox.currentText())
         self.headersListBox.addItems(headersList)
      
