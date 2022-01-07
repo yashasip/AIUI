@@ -81,7 +81,6 @@ class BinaryClassifierTab:
         if(self.chosenFile.fileType!='csv'):
             self.config.setupselectSheetComboBox(self.chosenFile.sheetNames)
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
-        self.config.setupHeadersListBox()
         self.inputTable.table.setEnabled(True)
 
     
