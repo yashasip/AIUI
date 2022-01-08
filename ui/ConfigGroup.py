@@ -50,7 +50,7 @@ class ConfigGroup:
     def setupHeadersListBox(self):
         headersList = [self.outcomeHeaderComboBox.itemText(i) for i in range(self.outcomeHeaderComboBox.count())]
         
-        if not headersList: # if no items, no items to setup
+        if not headersList: # if no items, headersListBox is not updated
             return
         
         self.headersListBox.clear()
