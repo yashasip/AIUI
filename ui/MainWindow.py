@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from ui.BinaryClassifierTab import BinaryClassifierTab
 from ui.ImageRecognizerTab import ImageRecognizerTab
-from ui.MenuBar import MenuBar
 from ui.TextGeneratorTab import TextGeneratorTab
 
 
