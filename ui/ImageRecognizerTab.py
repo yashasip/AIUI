@@ -81,6 +81,7 @@ class ImageRecognizerTab:
 
         self.taggingRadioBtn.setGeometry(QtCore.QRect(430, 10, 95, 20))
         self.taggingRadioBtn.setText("Tagging")
+        self.taggingRadioBtn.setChecked(True)
 
         self.categorizeRadioBtn.setGeometry(QtCore.QRect(580, 10, 111, 20))
         self.categorizeRadioBtn.setText("Categorize")
@@ -91,7 +92,6 @@ class ImageRecognizerTab:
         self.recognitionTypeGroup.addButton(self.taggingRadioBtn)
         self.recognitionTypeGroup.addButton(self.categorizeRadioBtn)
         self.recognitionTypeGroup.addButton(self.facialRecognitionRadioBtn)
-        self.recognitionTypeGroup.buttonClicked.connect(self.runRecognizer)
 
         self.imageRecognitionLine2.setGeometry(QtCore.QRect(0, 30, 1221, 20))
         self.imageRecognitionLine2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -115,7 +115,8 @@ class ImageRecognizerTab:
         self.imageRecognitionLine4.setFrameShadow(QtWidgets.QFrame.Sunken)
 
         self.pushButton.setGeometry(QtCore.QRect(530, 620, 151, 28))
-        self.pushButton.setText("Show Additional Tags")
+        self.pushButton.setText("Submit")
+        self.pushButton.clicked.connect(self.runRecognizer)
 
         self.imageRecognitionLine5.setGeometry(QtCore.QRect(0, 650, 1221, 20))
         self.imageRecognitionLine5.setFrameShape(QtWidgets.QFrame.HLine)
@@ -150,8 +151,12 @@ class ImageRecognizerTab:
         # if no people present won't work, fd won't work, align the labels, overflow block
         for item, index  in zip(self.resultData[0].items(),range(len(self.resultData[0]))):
             key, value = item
-            self.resultLabels[index].setGeometry(QtCore.QRect(540, 540 + 30 * index, 300, 21))
-            self.resultLabels[index].setText(key + ': ' + value) 
+            if index == 3:
+                self.resultLabels[index].setGeometry(QtCore.QRect(625, 540 + 30 * (index - 1), 300, 21))
+            else:
+                self.resultLabels[index].setGeometry(QtCore.QRect(540, 540 + 30 * index, 300, 21))
+            self.resultLabels[index].setText(key + ': ' + value)
+
 
 
     def setResultHeaderLabel(self):
