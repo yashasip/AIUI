@@ -1,7 +1,6 @@
-
-
 from PyQt5 import QtCore, QtWidgets
 
+from handle.FileHandle import FileHandle
 
 class TextGeneratorTab():
     def __init__(self) -> None:
@@ -52,6 +51,9 @@ class TextGeneratorTab():
         self.textGeneratorLine3 = QtWidgets.QFrame(self.textGeneratorFrame)
         self.textGeneratorLine4 = QtWidgets.QFrame(self.textGeneratorFrame)
 
+        self.fileFilter = 'PDF, Document File(*.pdf *.docx *.doc)'    
+        self.fileHandler = FileHandle(self.textGeneratorFrame, self.fileFilter)
+        
         self.setupTextGeneratorTab()
 
         
@@ -71,10 +73,12 @@ class TextGeneratorTab():
 
         self.chooseFileButton.setGeometry(QtCore.QRect(510, 60, 93, 31))
         self.chooseFileButton.setText("Choose File")
+        self.chooseFileButton.clicked.connect(self.getFilePath)
 
         self.viewButton.setEnabled(False)
         self.viewButton.setGeometry(QtCore.QRect(620, 60, 93, 31))
         self.viewButton.setText("View")
+        self.viewButton.clicked.connect(self.fileHandler.viewFile)
 
         self.textGeneratorLine1.setGeometry(QtCore.QRect(0, 90, 1221, 20))
         self.textGeneratorLine1.setFrameShape(QtWidgets.QFrame.HLine)
@@ -165,3 +169,8 @@ class TextGeneratorTab():
         self.textGeneratorLine4.setGeometry(QtCore.QRect(-3, 680, 1231, 20))
         self.textGeneratorLine4.setFrameShape(QtWidgets.QFrame.HLine)
         self.textGeneratorLine4.setFrameShadow(QtWidgets.QFrame.Sunken)
+
+    def getFilePath(self):
+        self.filePath = self.fileHandler.chooseFile()
+        self.fileInputPathBox.setText(self.filePath)
+        self.viewButton.setEnabled(True)    
