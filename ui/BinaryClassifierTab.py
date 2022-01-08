@@ -100,6 +100,8 @@ class BinaryClassifierTab:
         self.inputTable.setResultCells(predictions)
         print(DataTable.getTableData())
 
+        
+
 
 
 
