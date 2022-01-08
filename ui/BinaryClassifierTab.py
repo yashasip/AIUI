@@ -85,7 +85,13 @@ class BinaryClassifierTab:
 
     
     def trainModel(self):
-        self.predictor = DataPredictor(self.chosenFile,list(self.config.headersListBox.selectedItems()), self.config.outcomeHeaderComboBox.currentText(), self.config.modelConfig.epochsSpinBox.value())
+        self.predictor = DataPredictor(
+            dataRecord= self.chosenFile,
+            selectedHeaders = list(self.config.headersListBox.selectedItems()),
+            outcomeHeader= self.config.outcomeHeaderComboBox.currentText(), 
+            epochsCount= self.config.modelConfig.epochsSpinBox.value(),
+            activationFunction = self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
+            optimizerType = self.config.modelConfig.optimizerComboBox.currentText()) # *** scaling not set
 
         self.predictor.trainModel()
 
