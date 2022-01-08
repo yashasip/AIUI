@@ -32,11 +32,11 @@ class DataRecordFile:
         self.sheet = self.file.active
         self.headers = ['a','b']
 
-    def setupHeaders(self, headerRow):
-        for header in headerRow:
-            if header.isdecimal():
-                return [f"Header {chr(65+i)}" for i in range(len(headerRow))]
-        return headerRow
+
+        
+
+
+
 
 
 

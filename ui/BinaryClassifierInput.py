@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtWidgets
 from handle.FileHandle import FileHandle
 
 
+
 class BinaryClassifierInput:
     def __init__(self, parent) -> None:
         self.parentWidget = parent
@@ -29,12 +30,23 @@ class BinaryClassifierInput:
 
         self.chooseFileButton.setGeometry(QtCore.QRect(560, 60, 93, 28))
         self.chooseFileButton.setText("Choose File")
-        self.chooseFileButton.clicked.connect(self.getFilePath)
 
         self.viewFileButton.setGeometry(QtCore.QRect(660, 60, 93, 28))
         self.viewFileButton.setText("View")
         self.viewFileButton.clicked.connect(self.fileHandler.viewFile)
+        self.viewFileButton.setEnabled(False)
 
+
+#Disabling view button until file is chosen
     def getFilePath(self):
         self.filePath = self.fileHandler.chooseFile()
+        if not self.filePath:
+            self.viewFileButton.setEnabled(False)
+        else:
+            self.viewFileButton.setEnabled(True)
         self.filePathInputBox.setText(self.filePath)
+
+
+
+
+
