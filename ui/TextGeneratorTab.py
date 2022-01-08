@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 
 from handle.FileHandle import FileHandle
+from handle.TextDataFileHandle import TextDataFileHandle
+from logic.TextGenerator import TextGenerator
 
 class TextGeneratorTab():
     def __init__(self) -> None:
@@ -16,11 +18,8 @@ class TextGeneratorTab():
 
         self.configGroupBox = QtWidgets.QGroupBox(self.textGeneratorFrame)
 
-        self.excludePagesLabel = QtWidgets.QLabel(self.configGroupBox)
-        self.fromLabel = QtWidgets.QLabel(self.configGroupBox)
+        self.startFromLabel = QtWidgets.QLabel(self.configGroupBox)
         self.fromPageSpinBox = QtWidgets.QSpinBox(self.configGroupBox)
-        self.toLabel = QtWidgets.QLabel(self.configGroupBox)
-        self.toSpinBox = QtWidgets.QSpinBox(self.configGroupBox)
 
         self.epochsSpinBox = QtWidgets.QSpinBox(self.configGroupBox)
         self.epochsLabel = QtWidgets.QLabel(self.configGroupBox)
@@ -30,6 +29,7 @@ class TextGeneratorTab():
 
         self.optimizerLabel = QtWidgets.QLabel(self.configGroupBox)
         self.optimizerComboBox = QtWidgets.QComboBox(self.configGroupBox)
+        self.optimizerComboBox.addItems(['Adam','Adagrad','Adadelta','Adamax','Ftrl','Nadam','SGD','RMSprop'])
         
         self.trainButton = QtWidgets.QPushButton(self.configGroupBox)
         self.saveModelButton = QtWidgets.QPushButton(self.configGroupBox)
@@ -51,7 +51,7 @@ class TextGeneratorTab():
         self.textGeneratorLine3 = QtWidgets.QFrame(self.textGeneratorFrame)
         self.textGeneratorLine4 = QtWidgets.QFrame(self.textGeneratorFrame)
 
-        self.fileFilter = 'PDF, Document File(*.pdf *.docx *.doc)'    
+        self.fileFilter = 'PDF, Document File(*.pdf *.docx *.doc)'   
         self.fileHandler = FileHandle(self.textGeneratorFrame, self.fileFilter)
         
         self.setupTextGeneratorTab()
@@ -90,22 +90,17 @@ class TextGeneratorTab():
 
         self.fromPageSpinBox.setGeometry(QtCore.QRect(160, 50, 81, 31))
 
-        self.excludePagesLabel.setGeometry(QtCore.QRect(30, 50, 81, 31))
-        self.excludePagesLabel.setText("Exclude Pages")
-
-        self.fromLabel.setGeometry(QtCore.QRect(170, 20, 41, 31))
-        self.fromLabel.setText("From")
-
-        self.toLabel.setGeometry(QtCore.QRect(330, 20, 21, 31))
-        self.toLabel.setText("To")
+        self.startFromLabel.setGeometry(QtCore.QRect(30, 45, 95, 45))
+        self.startFromLabel.setText("Start From Page")
 
         self.batchSizeLabel = QtWidgets.QLabel(self.configGroupBox)
         self.epochsSpinBox.setGeometry(QtCore.QRect(160, 120, 81, 31))
+        self.epochsSpinBox.setMaximum(1000)
+        self.epochsSpinBox.setMinimum(10)
+        self.epochsSpinBox.setValue(20)
 
         self.epochsLabel.setGeometry(QtCore.QRect(30, 120, 71, 31))
         self.epochsLabel.setText("Epochs")
-
-        self.toSpinBox.setGeometry(QtCore.QRect(300, 50, 81, 31))
 
         self.optimizerLabel.setGeometry(QtCore.QRect(30, 190, 61, 31))
         self.optimizerLabel.setText("Optimizer")
@@ -117,6 +112,9 @@ class TextGeneratorTab():
         self.temperatureSpinBox.setGeometry(QtCore.QRect(160, 260, 61, 31))
         self.temperatureSpinBox.setMaximum(1.0)
         self.temperatureSpinBox.setProperty("value", 0.5)
+        self.temperatureSpinBox.setMinimum(0.01)
+        self.temperatureSpinBox.setMaximum(1)
+        self.temperatureSpinBox.setSingleStep(0.1)
         self.temperatureLabel.setText("Temperature")
 
         self.sequenceLengthLabel.setGeometry(QtCore.QRect(30, 330, 111, 31))
@@ -127,10 +125,12 @@ class TextGeneratorTab():
 
         self.trainButton.setGeometry(QtCore.QRect(220, 470, 111, 31))
         self.trainButton.setText("Train")
+        self.trainButton.clicked.connect(self.trainModel)
 
         self.saveModelButton.setEnabled(False)
         self.saveModelButton.setGeometry(QtCore.QRect(410, 530, 111, 31))
         self.saveModelButton.setText("Save Model")
+        self.saveModelButton.clicked.connect(self.saveModel)
 
         self.textGeneratorLine2.setGeometry(QtCore.QRect(0, 510, 551, 16))
         self.textGeneratorLine2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -140,10 +140,14 @@ class TextGeneratorTab():
         self.modelNameLabel.setText("Model Name:")
 
         self.sequenceLengthSpinBox.setGeometry(QtCore.QRect(160, 330, 111, 31))
-        self.sequenceLengthSpinBox.setProperty("value", 99)
+        self.sequenceLengthSpinBox.setProperty("value", 100)
+        self.sequenceLengthSpinBox.setMaximum(1000)
+        self.sequenceLengthSpinBox.setMinimum(100)
 
         self.batchSizeSpinBox.setGeometry(QtCore.QRect(160, 400, 111, 31))
         self.batchSizeSpinBox.setProperty("value", 64)
+        self.batchSizeSpinBox.setMinimum(64)
+        self.batchSizeSpinBox.setMaximum(512)
 
 
         self.typeSpaceBoxFrame.setGeometry(QtCore.QRect(570, 100, 651, 570))
@@ -155,6 +159,7 @@ class TextGeneratorTab():
 
         self.generateButton.setGeometry(QtCore.QRect(230, 528, 93, 31))
         self.generateButton.setText("Generate")
+        self.generateButton.clicked.connect(self.predictText)
 
         self.typeSpaceLabel.setGeometry(QtCore.QRect(10, 0, 81, 31))
         self.typeSpaceLabel.setText("Type Space")
@@ -173,4 +178,34 @@ class TextGeneratorTab():
     def getFilePath(self):
         self.filePath = self.fileHandler.chooseFile()
         self.fileInputPathBox.setText(self.filePath)
-        self.viewButton.setEnabled(True)    
+        self.viewButton.setEnabled(True)
+
+        if self.filePath[-4:] == 'docx':
+            self.startFromLabel.setDisabled(True)
+            self.fromPageSpinBox.setDisabled(True)
+        else:
+            self.startFromLabel.setEnabled(True)
+            self.fromPageSpinBox.setEnabled(True)
+
+    def trainModel(self):
+        dataFileHandle = TextDataFileHandle(self.filePath)
+        self.textGenerator = TextGenerator(fileData = dataFileHandle.readPDF(),
+        epochsCount=self.epochsSpinBox.value(),
+        optimizer=self.optimizerComboBox.currentText(),
+        temperature=self.temperatureSpinBox.value(),
+        sequenceLength=self.sequenceLengthSpinBox.value(),
+        batchSize=self.batchSizeSpinBox.value())
+        self.textGenerator.setupModel()
+        self.saveModelButton.setEnabled(True)
+
+
+    def predictText(self):
+        if self.typeSpaceBox.toPlainText() == '':
+            return
+
+        generatedText = self.textGenerator.generateText(self.typeSpaceBox.toPlainText())
+        self.typeSpaceBox.setPlainText(generatedText)
+
+    def saveModel(self):
+        self.textGenerator.saveModel()
+
