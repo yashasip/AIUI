@@ -14,7 +14,7 @@ class MainWindow(object):
         self.setupUi()
 
     def setupUi(self):
-        self.mainWindow.resize(1257, 780)
+        self.mainWindow.resize(1257, 760)
         self.mainWindow.setWindowTitle("AIUI")
 
         self.centralwidget = QtWidgets.QWidget(self.mainWindow)
@@ -44,7 +44,6 @@ class MainWindow(object):
         self.tabBar.addTab(self.tabs[2].tab, "Text Generator")
 
         # Menu Bar set
-        self.menuBar = MenuBar(self.mainWindow)
         self.statusbar = QtWidgets.QStatusBar(self.mainWindow)
         self.mainWindow.setStatusBar(self.statusbar)
 
