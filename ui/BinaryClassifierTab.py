@@ -100,8 +100,6 @@ class BinaryClassifierTab:
     def prediction(self):
         predictions = self.predictor.predict(self.inputTable.getTableData())
         self.inputTable.setResultCells(predictions)
-        print(DataTable.getTableData())
-
         
 
 
