@@ -49,6 +49,17 @@ class DataTable:
 
         self.table.setRowCount(self.table.rowCount() - 1)
 
+    def isTableDataValid(self):
+        for row in range(self.table.rowCount()):
+            rowData = []
+            for column in range(self.table.columnCount()):
+                if column == self.table.columnCount() - 1:
+                    continue
+                if not self.table.item(row,column).text():
+                    return False
+
+        return True
+
     def getTableData(self, extractOutcomeHeader = False):
         tableData = []
         for cell in range(self.table.rowCount()):
