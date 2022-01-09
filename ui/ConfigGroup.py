@@ -24,6 +24,7 @@ class ConfigGroup:
 
     def setupConfigGroupUi(self):
         self.configGroupBox.setTitle("Config")
+        self.configGroupBox.setDisabled(True)
 
         self.outcomeHeader.setGeometry(QtCore.QRect(20, 30, 101, 31))
         self.outcomeHeader.setText("Outcome Header")
@@ -60,3 +61,10 @@ class ConfigGroup:
     def setupselectSheetComboBox(self,sheetNames):
         self.selectSheetComboBox.clear()
         self.selectSheetComboBox.addItems(sheetNames)
+
+    def toggleModelConfig(self):
+        if len(self.headersListBox.selectedIndexes()) < 1:
+            self.modelConfig.ModelConfigBox.setDisabled(True)
+            return
+
+        self.modelConfig.ModelConfigBox.setEnabled(True)

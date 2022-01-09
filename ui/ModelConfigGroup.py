@@ -26,6 +26,7 @@ class ModelConfigGroup:
     def setupModelConfigUi(self):
         self.ModelConfigBox.setGeometry(QtCore.QRect(10, 210, 561, 341))
         self.ModelConfigBox.setTitle("Model Config")
+        self.ModelConfigBox.setDisabled(True)
 
         # self.modelTrainProgressBar.setGeometry(QtCore.QRect(170, 270, 271, 23))
         # self.modelTrainProgressBar.setProperty("value", 0)

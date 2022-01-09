@@ -9,7 +9,7 @@ class DataTable:
         self.setupDataTableWidgets()
 
     def setupDataTableWidgets(self):
-        self.table.setEnabled(False)
+        self.table.setDisabled(True)
         self.table.setColumnCount(1)
         self.table.setRowCount(1)
         self.table.setHorizontalHeaderLabels(['Header A'])
