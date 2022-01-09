@@ -85,6 +85,7 @@ class BinaryClassifierTab:
 
     
     def trainModel(self):
+        self.config.modelConfig.trainingLabel.setHidden(False)
         self.predictor = DataPredictor(
             dataRecord= self.chosenFile,
             selectedHeaders = list(self.config.headersListBox.selectedItems()),
@@ -93,13 +94,12 @@ class BinaryClassifierTab:
             activationFunction = self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
             optimizerType = self.config.modelConfig.optimizerComboBox.currentText()) # *** scaling not set
 
+        self.config.modelConfig.trainingLabel.setHidden(True)
         self.predictor.trainModel()
 
     def prediction(self):
         predictions = self.predictor.predict(self.inputTable.getTableData())
         self.inputTable.setResultCells(predictions)
-        print(DataTable.getTableData())
-
         
 
 
