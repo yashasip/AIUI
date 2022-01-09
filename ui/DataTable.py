@@ -61,15 +61,17 @@ class DataTable:
         return True
 
     def getTableData(self, extractOutcomeHeader = False):
-        tableData = []
-        for cell in range(self.table.rowCount()):
-            rowData = []
-            rowData.append(int(self.table.item(cell,0).text()))
-            rowData.append(int(self.table.item(cell,1).text()))
-            
-            if extractOutcomeHeader:
-                rowData.append(self.table.item(cell,2).text())
+        if not self.isTableDataValid():
+            return # display invalid popup window
 
+        tableData = []
+        for row in range(self.table.rowCount()):
+            rowData = []
+            for column in range(self.table.columnCount()):
+                if not extractOutcomeHeader and column == self.table.columnCount - 1:
+                    continue
+                rowData.append(int(self.table.item(row,column).text()))
+            
             tableData.append(rowData)
         return tableData
 
@@ -80,5 +82,5 @@ class DataTable:
         for row in range(self.table.rowCount()):
             self.table.item(row,column).setText(str(predictions[row]))
     
-    #RESIZING COLUMNS EVERYTIME ITS UPDATED
+        #RESIZING COLUMNS EVERYTIME ITS UPDATED
         self.table.resizeColumnsToContents()
