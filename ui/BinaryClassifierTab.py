@@ -34,6 +34,8 @@ class BinaryClassifierTab:
         self.config = ConfigGroup(parent=self.horizontalLayoutWidget)
         self.inputTable = DataTable(self.tableLayout)
 
+        self.chosenFile = None
+
         self.setupBinaryClassifierTab()
 
     def setupBinaryClassifierTab(self):
@@ -78,6 +80,7 @@ class BinaryClassifierTab:
         self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
         self.predictBtn.clicked.connect(self.prediction)
+        self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet)
 
         
     def setupFunctionalComponents(self):
@@ -116,6 +119,10 @@ class BinaryClassifierTab:
         tableData = self.inputTable.getTableData()
         predictions = self.predictor.predict(tableData)
         self.inputTable.setResultCells(predictions)
+
+    def setupSheet(self):
+        self.chosenFile.changeSheetXL(self.config.selectSheetComboBox.currentText())
+        self.config.setupOutcomeHeaders(self.chosenFile.headers)
         
 
 

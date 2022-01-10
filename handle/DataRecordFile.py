@@ -29,20 +29,30 @@ class DataRecordFile:
     def setupXL(self):
         self.file = openpyxl.load_workbook(self.filePath)
         self.sheetNames = self.file.sheetnames
-        self.sheet = self.file.active
-        self.headers = ['a','b']
+        self.currentSheet = self.file[self.sheetNames[0]]
+        self.headers = self.setupHeaders(self.getHeadersXL())
 
     def setupHeaders(self, headerRow):
         for header in headerRow:
-            if header.isdecimal():
+            if self.isNumber(header):
                 return [f"Header {chr(65+i)}" for i in range(len(headerRow))]
         return headerRow
 
+    def getHeadersXL(self):
+        return [self.currentSheet.cell(row=1,column= column).value for column in range(1, self.currentSheet.max_column+1)]
 
+    def changeSheetXL(self, changedSheet):
+        self.currentSheet = self.file[changedSheet]
+        self.headers = self.getHeadersXL() # check if required
+
+    @staticmethod
+    def isNumber(string):
+        decimalParts = string.split('.')
+        if len(decimalParts) > 2:
+            return False
+        for number in decimalParts:
+            if not number.isdecimal():
+                return False
         
-
-
-
-
-
+        return True
 
