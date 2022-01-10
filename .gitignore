@@ -3,3 +3,4 @@ extras/
 .vscode/
 ui/test.py
 one_step/
+training_checkpoints/
