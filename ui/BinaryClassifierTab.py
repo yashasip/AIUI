@@ -19,16 +19,20 @@ class BinaryClassifierTab:
         # config components
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.binaryTabFrame)
         self.configLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        
+
         # Table & related Components
         self.tableLayout = QtWidgets.QWidget(self.binaryTabFrame)
         self.inputTableLayout = QtWidgets.QVBoxLayout(self.tableLayout)
         self.tableHorizontalButtonsLayout = QtWidgets.QHBoxLayout(self.tableLayout)
-        self.predictBtn = QtWidgets.QPushButton("Predict",self.tableLayout)
-        self.saveBtn = QtWidgets.QPushButton("Save",self.tableLayout)
-        self.tableButtonSpacer1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.tableButtonSpacer2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        
+        self.predictBtn = QtWidgets.QPushButton("Predict", self.tableLayout)
+        self.saveBtn = QtWidgets.QPushButton("Save", self.tableLayout)
+        self.tableButtonSpacer1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
+        self.tableButtonSpacer2 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
+        )
+
         # User Defined Components
         self.fileHandler = BinaryClassifierInput(self.binaryTabFrame)
         self.config = ConfigGroup(parent=self.horizontalLayoutWidget)
@@ -74,39 +78,52 @@ class BinaryClassifierTab:
         self.predictBtn.setDisabled(True)
         self.saveBtn.setDisabled(True)
 
-        self.fileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
-        self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(self.config.getSelectedHeaders(),self.config.outcomeHeaderComboBox.currentText()))
-        self.config.headersListBox.itemSelectionChanged.connect(self.config.toggleModelConfig)
-        self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
+        self.fileHandler.filePathInputBox.textChanged.connect(
+            self.setupFunctionalComponents
+        )
+        self.config.headersListBox.itemSelectionChanged.connect(
+            lambda: self.inputTable.setupTable(
+                self.config.getSelectedHeaders(),
+                self.config.outcomeHeaderComboBox.currentText(),
+            )
+        )
+        self.config.headersListBox.itemSelectionChanged.connect(
+            self.config.toggleModelConfig
+        )
+        self.config.outcomeHeaderComboBox.currentTextChanged.connect(
+            lambda: self.inputTable.setupTable(
+                list(self.config.headersListBox.selectedItems()),
+                self.config.outcomeHeaderComboBox.currentText(),
+            )
+        )
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
         self.predictBtn.clicked.connect(self.prediction)
         self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet)
 
-        
     def setupFunctionalComponents(self):
         self.config.configGroupBox.setEnabled(True)
         self.chosenFile = DataRecordFile(self.fileHandler.filePath)
-        if self.chosenFile.fileType == 'csv':
+        if self.chosenFile.fileType == "csv":
             self.config.selectSheet.setHidden(True)
             self.config.selectSheetComboBox.setHidden(True)
         else:
             self.config.selectSheet.setVisible(True)
             self.config.selectSheetComboBox.setVisible(True)
 
-        if(self.chosenFile.fileType!='csv'):
+        if self.chosenFile.fileType != "csv":
             self.config.setupselectSheetComboBox(self.chosenFile.sheetNames)
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
 
-    
     def trainModel(self):
         self.config.modelConfig.trainingLabel.setHidden(False)
         self.predictor = DataPredictor(
-            dataRecord= self.chosenFile,
-            selectedHeaders = self.config.getSelectedHeaders(),
-            outcomeHeader= self.config.outcomeHeaderComboBox.currentText(), 
-            epochsCount= self.config.modelConfig.epochsSpinBox.value(),
-            activationFunction = self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
-            optimizerType = self.config.modelConfig.optimizerComboBox.currentText()) # *** scaling not set
+            dataRecord=self.chosenFile,
+            selectedHeadersIndex=self.config.getSelectedHeadersIndex(),
+            outcomeHeaderIndex=self.config.outcomeHeaderComboBox.currentIndex(),
+            epochsCount=self.config.modelConfig.epochsSpinBox.value(),
+            activationFunction=self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
+            optimizerType=self.config.modelConfig.optimizerComboBox.currentText(),
+        )  # *** scaling not set
 
         self.config.modelConfig.trainingLabel.setHidden(True)
         self.predictor.trainModel()
@@ -115,7 +132,7 @@ class BinaryClassifierTab:
 
     def prediction(self):
         if self.inputTable.containsEmptyCell():
-            return # *** display dialog box
+            return  # *** display dialog box
         tableData = self.inputTable.getTableData()
         predictions = self.predictor.predict(tableData)
         self.inputTable.setResultCells(predictions)
@@ -123,8 +140,3 @@ class BinaryClassifierTab:
     def setupSheet(self):
         self.chosenFile.changeSheetXL(self.config.selectSheetComboBox.currentText())
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
-        
-
-
-
-

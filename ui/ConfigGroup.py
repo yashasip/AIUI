@@ -8,7 +8,7 @@ import handle.DataRecordFile
 class ConfigGroup:
     def __init__(self, parent) -> None:
         self.configGroupBox = QtWidgets.QGroupBox(parent)
-        
+
         self.outcomeHeader = QtWidgets.QLabel(self.configGroupBox)
         self.outcomeHeaderComboBox = QtWidgets.QComboBox(self.configGroupBox)
 
@@ -34,7 +34,7 @@ class ConfigGroup:
 
         self.headersSelectionLabel.setGeometry(QtCore.QRect(20, 70, 111, 31))
         self.headersSelectionLabel.setText("Select Headers")
-        
+
         self.headersListBox.setGeometry(QtCore.QRect(20, 102, 521, 81))
         self.headersListBox.setSelectionMode(QtWidgets.QListWidget.MultiSelection)
 
@@ -43,22 +43,25 @@ class ConfigGroup:
 
         self.selectSheetComboBox.setGeometry(QtCore.QRect(390, 30, 171, 31))
 
-    def setupOutcomeHeaders(self,header_choices):
+    def setupOutcomeHeaders(self, header_choices):
         self.outcomeHeaderComboBox.clear()
         self.outcomeHeaderComboBox.addItems(header_choices)
-        self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices)-1)
+        self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices) - 1)
 
     def setupHeadersListBox(self):
-        headersList = [self.outcomeHeaderComboBox.itemText(i) for i in range(self.outcomeHeaderComboBox.count())]
-        
-        if not headersList: # if no items, headersListBox is not updated
+        headersList = [
+            self.outcomeHeaderComboBox.itemText(i)
+            for i in range(self.outcomeHeaderComboBox.count())
+        ]
+
+        if not headersList:  # if no items, headersListBox is not updated
             return
-        
+
         self.headersListBox.clear()
         headersList.remove(self.outcomeHeaderComboBox.currentText())
         self.headersListBox.addItems(headersList)
-     
-    def setupselectSheetComboBox(self,sheetNames):
+
+    def setupselectSheetComboBox(self, sheetNames):
         self.selectSheetComboBox.clear()
         self.selectSheetComboBox.addItems(sheetNames)
 
@@ -67,6 +70,14 @@ class ConfigGroup:
         for i in range(self.headersListBox.count()):
             if self.headersListBox.item(i).isSelected():
                 selectedHeaders += [self.headersListBox.item(i).text()]
+
+        return selectedHeaders
+
+    def getSelectedHeadersIndex(self):
+        selectedHeaders = []
+        for i in range(self.headersListBox.count()):
+            if self.headersListBox.item(i).isSelected():
+                selectedHeaders += [i]
 
         return selectedHeaders
 
