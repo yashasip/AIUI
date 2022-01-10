@@ -47,16 +47,14 @@ class DataRecordFile:
 
     def changeSheetXL(self, changedSheet):
         self.currentSheet = self.file[changedSheet]
-        self.headers = self.getHeadersXL()  # check if required
+        self.headers = self.setupHeaders(self.getHeadersXL())  # check if required
 
     @staticmethod
     def isNumber(string):
-        decimalParts = string.split(".")
-        if len(decimalParts) > 2:
+        try:
+            number = float(string)
+        except ValueError:
             return False
-        for number in decimalParts:
-            if not number.isdecimal():
-                return False
 
         return True
 
@@ -75,4 +73,17 @@ class DataRecordFile:
                 rowData.append(float(row[item]))
 
             data += [rowData]
+        return data
+
+    def cleanXLData(self, selectedIndexes):
+        data = []
+        for row in range(1, self.currentSheet.max_row + 1):
+            if row == 1 and self.headersPresent:  # skip header if present
+                continue
+            rowData = []
+            for column in range(1, self.currentSheet.max_column + 1):
+                if column - 1 in selectedIndexes:
+                    rowData.append(float(self.currentSheet.cell(row, column).value))
+            data.append(rowData)
+
         return data

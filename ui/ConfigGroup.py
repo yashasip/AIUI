@@ -2,8 +2,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 from ui.ModelConfigGroup import ModelConfigGroup
 
-import handle.DataRecordFile
-
 
 class ConfigGroup:
     def __init__(self, parent) -> None:
