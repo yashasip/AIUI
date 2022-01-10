@@ -49,20 +49,17 @@ class DataTable:
 
         self.table.setRowCount(self.table.rowCount() - 1)
 
-    def isTableDataValid(self):
+    def containsEmptyCell(self):
         for row in range(self.table.rowCount()):
             for column in range(self.table.columnCount()):
                 if column == self.table.columnCount() - 1:
                     continue
                 if not self.table.item(row,column).text():
-                    return False
+                    return True
 
-        return True
+        return False
 
     def getTableData(self, extractOutcomeHeader = False):
-        if not self.isTableDataValid():
-            return False # display invalid popup window
-
         tableData = []
         for row in range(self.table.rowCount()):
             rowData = []

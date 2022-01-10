@@ -97,7 +97,6 @@ class BinaryClassifierTab:
     
     def trainModel(self):
         self.config.modelConfig.trainingLabel.setHidden(False)
-        del self.predictor
         self.predictor = DataPredictor(
             dataRecord= self.chosenFile,
             selectedHeaders = self.config.getSelectedHeaders(),
@@ -112,9 +111,9 @@ class BinaryClassifierTab:
         self.predictBtn.setEnabled(True)
 
     def prediction(self):
+        if self.inputTable.containsEmptyCell():
+            return # *** display dialog box
         tableData = self.inputTable.getTableData()
-        if not tableData:
-            return
         predictions = self.predictor.predict(tableData)
         self.inputTable.setResultCells(predictions)
         
