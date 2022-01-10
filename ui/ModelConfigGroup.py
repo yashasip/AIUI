@@ -14,6 +14,7 @@ class ModelConfigGroup:
         self.optimizerComboBox = QtWidgets.QComboBox(self.ModelConfigBox)
         self.normalizationRadioButton = QtWidgets.QRadioButton(self.ModelConfigBox)
         self.standardizationRadioButton = QtWidgets.QRadioButton(self.ModelConfigBox)
+        self.scalingTypeGroup = QtWidgets.QButtonGroup(self.ModelConfigBox)
         self.scalingLabel = QtWidgets.QLabel(self.ModelConfigBox)
         self.trainingLabel = QtWidgets.QLabel(self.ModelConfigBox)
 
@@ -69,7 +70,9 @@ class ModelConfigGroup:
         self.standardizationRadioButton.setText("Standardization")
         self.standardizationRadioButton.setGeometry(QtCore.QRect(290, 210, 121, 21))
         self.standardizationRadioButton.setChecked(False)
-        self.standardizationRadioButton.setObjectName("standardizationRadioButton")
+
+        self.scalingTypeGroup.addButton(self.normalizationRadioButton)
+        self.scalingTypeGroup.addButton(self.standardizationRadioButton)
 
         self.scalingLabel.setGeometry(QtCore.QRect(30, 210, 61, 21))
         self.scalingLabel.setObjectName("scalingLabel")

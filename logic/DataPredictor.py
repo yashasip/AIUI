@@ -3,7 +3,7 @@ from tensorflow.keras import layers
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 
 class DataPredictor:
@@ -15,7 +15,7 @@ class DataPredictor:
         epochsCount=5000,
         optimizerType="adam",
         activationFunction="sigmoid",
-        Scaling=None,
+        scaling='Normalization',
     ) -> None:
         self.dataRecord = dataRecord
         self.file = self.dataRecord.file
@@ -25,6 +25,7 @@ class DataPredictor:
         self.epochsCount = epochsCount
         self.optimizerType = optimizerType
         self.activationFunction = activationFunction
+        self.scaling = scaling
 
         self.cleanData()
 
@@ -34,31 +35,31 @@ class DataPredictor:
                 self.selectedHeadersIndex + [self.outcomeHeaderIndex]
             )
         else:
-            self.cleanXLData()
+            self.data = self.dataRecord.cleanXLData(
+                self.selectedHeadersIndex + [self.outcomeHeaderIndex]
+            )
 
         self.data = pd.DataFrame(self.data)
 
-    def cleanCsvData(self):
-        self.data = []
-        for row in self.file:  # first row is missed if no header
-            rowData = []
-            for item in row.items():
-                rowData += [float(item[1])]
-            self.data += [rowData]
-
-    def cleanXLData(self):
-        self.data = []
-
-    def splitScaleData(self):
+    def splitData(self):
+        print(self.data.head())
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
             self.data[range(len(self.selectedHeadersIndex))],
             self.data[[len(self.selectedHeadersIndex)]],
             test_size=0.2,
             random_state=25,
         )  # headers shape size
-        self.norm = MinMaxScaler().fit(self.x_train)
-        self.x_train_scaled = pd.DataFrame(self.norm.transform(self.x_train))
-        self.x_test_scaled = pd.DataFrame(self.norm.transform(self.x_test))
+        
+
+    def ScaleData(self):
+        if self.scaling == 'Standardization':
+            self.std = StandardScaler().fit(self.x_train)
+            self.x_train_scaled = pd.DataFrame(self.std.transform(self.x_train))
+            self.x_test_scaled = pd.DataFrame(self.std.transform(self.x_test))
+        else:
+            self.norm = MinMaxScaler().fit(self.x_train)
+            self.x_train_scaled = pd.DataFrame(self.norm.transform(self.x_train))
+            self.x_test_scaled = pd.DataFrame(self.norm.transform(self.x_test))
 
     def buildModel(self):
         self.model = Sequential(
@@ -93,6 +94,7 @@ class DataPredictor:
         return [float(item) for item in list(predictions)]
 
     def trainModel(self):
-        self.splitScaleData()
+        self.splitData()
+        self.ScaleData()
         self.buildModel()
         self.evaluateModel()

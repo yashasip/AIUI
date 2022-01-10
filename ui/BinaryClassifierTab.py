@@ -123,7 +123,8 @@ class BinaryClassifierTab:
             epochsCount=self.config.modelConfig.epochsSpinBox.value(),
             activationFunction=self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
             optimizerType=self.config.modelConfig.optimizerComboBox.currentText(),
-        )  # *** scaling not set
+            scaling=self.config.modelConfig.scalingTypeGroup.checkedButton().text()
+        )
 
         self.config.modelConfig.trainingLabel.setHidden(True)
         self.predictor.trainModel()
