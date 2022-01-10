@@ -62,6 +62,14 @@ class ConfigGroup:
         self.selectSheetComboBox.clear()
         self.selectSheetComboBox.addItems(sheetNames)
 
+    def getSelectedHeaders(self):
+        selectedHeaders = []
+        for i in range(self.headersListBox.count()):
+            if self.headersListBox.item(i).isSelected():
+                selectedHeaders += [self.headersListBox.item(i).text()]
+
+        return selectedHeaders
+
     def toggleModelConfig(self):
         if len(self.headersListBox.selectedIndexes()) < 1:
             self.modelConfig.ModelConfigBox.setDisabled(True)

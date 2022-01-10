@@ -73,7 +73,7 @@ class BinaryClassifierTab:
         self.saveBtn.setDisabled(True)
 
         self.fileHandler.filePathInputBox.textChanged.connect(self.setupFunctionalComponents)
-        self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
+        self.config.headersListBox.itemSelectionChanged.connect(lambda: self.inputTable.setupTable(self.config.getSelectedHeaders(),self.config.outcomeHeaderComboBox.currentText()))
         self.config.headersListBox.itemSelectionChanged.connect(self.config.toggleModelConfig)
         self.config.outcomeHeaderComboBox.currentTextChanged.connect(lambda: self.inputTable.setupTable(list(self.config.headersListBox.selectedItems()),self.config.outcomeHeaderComboBox.currentText()))
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
@@ -89,7 +89,7 @@ class BinaryClassifierTab:
         else:
             self.config.selectSheet.setVisible(True)
             self.config.selectSheetComboBox.setVisible(True)
-            
+
         if(self.chosenFile.fileType!='csv'):
             self.config.setupselectSheetComboBox(self.chosenFile.sheetNames)
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
@@ -97,9 +97,10 @@ class BinaryClassifierTab:
     
     def trainModel(self):
         self.config.modelConfig.trainingLabel.setHidden(False)
+        del self.predictor
         self.predictor = DataPredictor(
             dataRecord= self.chosenFile,
-            selectedHeaders = list(self.config.headersListBox.selectedItems()),
+            selectedHeaders = self.config.getSelectedHeaders(),
             outcomeHeader= self.config.outcomeHeaderComboBox.currentText(), 
             epochsCount= self.config.modelConfig.epochsSpinBox.value(),
             activationFunction = self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
