@@ -66,7 +66,7 @@ class DataTable:
             for column in range(self.table.columnCount()):
                 if not extractOutcomeHeader and column == self.table.columnCount() - 1:
                     continue
-                rowData.append(int(self.table.item(row,column).text()))
+                rowData.append(float(self.table.item(row,column).text()))
             
             tableData.append(rowData)
         return tableData
