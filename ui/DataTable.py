@@ -51,7 +51,6 @@ class DataTable:
 
     def isTableDataValid(self):
         for row in range(self.table.rowCount()):
-            rowData = []
             for column in range(self.table.columnCount()):
                 if column == self.table.columnCount() - 1:
                     continue
@@ -62,13 +61,13 @@ class DataTable:
 
     def getTableData(self, extractOutcomeHeader = False):
         if not self.isTableDataValid():
-            return # display invalid popup window
+            return False # display invalid popup window
 
         tableData = []
         for row in range(self.table.rowCount()):
             rowData = []
             for column in range(self.table.columnCount()):
-                if not extractOutcomeHeader and column == self.table.columnCount - 1:
+                if not extractOutcomeHeader and column == self.table.columnCount() - 1:
                     continue
                 rowData.append(int(self.table.item(row,column).text()))
             

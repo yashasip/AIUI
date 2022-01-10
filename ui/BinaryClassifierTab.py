@@ -112,7 +112,10 @@ class BinaryClassifierTab:
         self.predictBtn.setEnabled(True)
 
     def prediction(self):
-        predictions = self.predictor.predict(self.inputTable.getTableData())
+        tableData = self.inputTable.getTableData()
+        if not tableData:
+            return
+        predictions = self.predictor.predict(tableData)
         self.inputTable.setResultCells(predictions)
         
 
