@@ -1,8 +1,8 @@
-from os import terminal_size
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from handle.FileHandle import FileHandle
 from handle.ImaggaAPIHandler import ImaggaAPIHandler
+from requests import exceptions
 
 class ImageRecognizerTab:
     def __init__(self) -> None:
@@ -151,10 +151,15 @@ class ImageRecognizerTab:
 
 
         self.apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
-        self.resultData = self.apiHandler.APIHandle()
+        try:
+            self.resultData = self.apiHandler.APIHandle()
+        except exceptions.ConnectionError:
+            self.displayNoResults('Connection Error')
+            return
+        finally:
+            self.submitButton.setEnabled(True)
+            self.submitButton.setText('Submit')
         
-        self.submitButton.setEnabled(True)
-        self.submitButton.setText('Submit')
         print(self.resultData)
         self.displayResults()
 
@@ -173,10 +178,12 @@ class ImageRecognizerTab:
             self.resultLabels[index].setGeometry(QtCore.QRect(540, 535 + 30 * index, 300, 21))
             self.resultLabels[index].setText(key + ': ' + value.title())
 
-    def displayNoResults(self):
+    def displayNoResults(self, failMessageType):
         self.resultLabels[1].setGeometry(QtCore.QRect(540, 565, 300, 21))
-        if self.recognitionType == 'Facial Detection':
+        if failMessageType == 'Facial Detection':
             self.resultLabels[1].setText('No human faces detected in this image')
+        elif failMessageType == 'Connection Error':
+            self.resultLabels[1].setText('No internet connection found')
         else:
             self.resultLabels[1].setText('No Results Found')
 
