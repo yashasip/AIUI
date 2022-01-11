@@ -5,13 +5,14 @@ import time
 
 
 class TextGenerator:
-    def __init__(self, fileData, epochsCount=20, optimizer = 'adam', temperature=0.5, sequenceLength=100, batchSize=64 ) -> None:
+    def __init__(self, fileData=None, epochsCount=20, optimizer = 'adam', temperature=0.5, sequenceLength=100, batchSize=64, generationType = 'NEW' ) -> None:
         self.textData = fileData
         self.epochsCount = epochsCount
         self.optimizer = optimizer
         self.temperature = temperature
         self.sequenceLength = sequenceLength
         self.batchSize = batchSize
+        self.generationType = generationType
 
 
     def getUniqueCharacters(self):
@@ -116,7 +117,32 @@ class TextGenerator:
 
 
     def generateText(self, input, predictCharcaterCount=1000):
+        if self.generationType == 'LOAD':
+            predictedText = self.generateTextLoadedModel(input, predictCharcaterCount)
+        else:
+            predictedText = self.generateTextNewModel(input, predictCharcaterCount)
+        return predictedText
+        
+    def generateTextLoadedModel(self, input, predictCharcaterCount=1000):
+        start = time.time()
+        states = None
+        next_char = tf.constant([input])
+        result = [next_char]
+
+        for n in range(predictCharcaterCount):
+            next_char, states = self.one_step_reloaded.generate_one_step(next_char, states=states)
+            result.append(next_char)
+
+        result = tf.strings.join(result)
+        end = time.time()
+
+        self.runTime = end - start
+
+        return result[0].numpy().decode('utf-8')
+    
+    def generateTextNewModel(self, input, predictCharcaterCount=1000):
         self.one_step_model = OneStep(self.model, self.chars_from_ids, self.ids_from_chars, temperature=self.temperature)
+
         start = time.time()
         states = None
         next_char = tf.constant([input])
@@ -132,10 +158,13 @@ class TextGenerator:
         self.runTime = end - start
 
         return result[0].numpy().decode('utf-8')
+    
 
     def saveModel(self):
-      tf.saved_model.save(self.one_step_model, 'one_step')
-      self.one_step_reloaded = tf.saved_model.load('one_step')
+      tf.saved_model.save(self.one_step_model, 'new_model')
+    
+    def loadModel(self, path):
+      self.one_step_reloaded = tf.saved_model.load(path)
 
 
 class MyModel(tf.keras.Model):
