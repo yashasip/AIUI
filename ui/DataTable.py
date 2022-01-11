@@ -21,6 +21,7 @@ class DataTable:
 
 
     def setupTable(self, selectedItems, outcomeHeader):
+        self.table.clear()
         self.headers = selectedItems + [outcomeHeader]
 
         self.table.setColumnCount(len(self.headers))
