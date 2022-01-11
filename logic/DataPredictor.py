@@ -89,7 +89,11 @@ class DataPredictor:
 
     def predict(self, inputData):
         inputData = pd.DataFrame(inputData)
-        inputData = pd.DataFrame(self.norm.transform(inputData))
+        if self.scaling == 'Standardization':
+            inputData = pd.DataFrame(self.std.transform(inputData))
+        else:
+            inputData = pd.DataFrame(self.norm.transform(inputData))
+
         predictions = self.model.predict(inputData)
         return [float(item) for item in list(predictions)]
 
