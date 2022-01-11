@@ -59,7 +59,7 @@ class ConfigGroup:
         headersList.remove(self.outcomeHeaderComboBox.currentText())
         self.headersListBox.addItems(headersList)
 
-    def setupselectSheetComboBox(self, sheetNames):
+    def setupSelectSheetComboBox(self, sheetNames):
         self.selectSheetComboBox.clear()
         self.selectSheetComboBox.addItems(sheetNames)
 

@@ -112,7 +112,8 @@ class BinaryClassifierTab:
             self.config.selectSheetComboBox.setVisible(True)
 
         if self.chosenFile.fileType != "csv":
-            self.config.setupselectSheetComboBox(self.chosenFile.sheetNames)
+            self.config.setupSelectSheetComboBox(self.chosenFile.sheetNames)
+            self.setupSheet()
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
 
     def trainModel(self):
@@ -141,6 +142,13 @@ class BinaryClassifierTab:
         self.inputTable.setResultCells(predictions)
 
     def setupSheet(self):
+        if self.chosenFile.fileType == 'csv':
+            self.config.selectSheet.setHidden(True)
+            self.config.selectSheetComboBox.setHidden(True)
+            return
+
+        self.config.selectSheet.setVisible(True)
+        self.config.selectSheetComboBox.setVisible(True)
         self.chosenFile.changeSheetXL(self.config.selectSheetComboBox.currentText())
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
 
