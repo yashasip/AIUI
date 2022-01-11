@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtTest
 
 from handle.FileHandle import FileHandle
 from handle.TextDataFileHandle import TextDataFileHandle
@@ -189,7 +189,6 @@ class TextGeneratorTab():
         self.fileInputPathBox.setText(self.filePath)
         self.viewButton.setEnabled(True)
 
-
     def setupConfigGroup(self):
         self.filePath = self.fileInputPathBox.text()
         self.fileInputPathBox.setText(self.filePath)
@@ -211,13 +210,20 @@ class TextGeneratorTab():
         self.textGenerator.setupModel()
         self.saveModelButton.setEnabled(True)
 
+    def fancyWriter(self, content):
+        self.typeSpaceBox.setReadOnly(True)
+        for index in range(len(content)):
+            self.typeSpaceBox.ensureCursorVisible()
+            self.typeSpaceBox.setPlainText(content[:index])
+            QtTest.QTest.qWait(30)
+        self.typeSpaceBox.setReadOnly(False)
 
     def predictText(self):
         if self.typeSpaceBox.toPlainText() == '':
             return
 
         generatedText = self.textGenerator.generateText(self.typeSpaceBox.toPlainText())
-        self.typeSpaceBox.setPlainText(generatedText)
+        self.fancyWriter(content=generatedText)
 
     def saveModel(self):
         self.textGenerator.saveModel()
