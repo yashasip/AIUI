@@ -21,3 +21,12 @@ class FileHandle:
 
     def viewFile(self):
         os.startfile(self.filePath) # should show a dialog box in case of an error
+
+    def saveFile(self, fileType):
+        name = QtWidgets.QFileDialog.getSaveFileName(
+            parent = self.parentWidget,
+            caption = 'Save File',
+            filter = fileType,
+            initialFilter = fileType
+        )
+        return name

@@ -34,7 +34,7 @@ class BinaryClassifierTab:
         )
 
         # User Defined Components
-        self.fileHandler = BinaryClassifierInput(self.binaryTabFrame)
+        self.binaryFileInputHandle = BinaryClassifierInput(self.binaryTabFrame)
         self.config = ConfigGroup(parent=self.horizontalLayoutWidget)
         self.inputTable = DataTable(self.tableLayout)
 
@@ -78,7 +78,7 @@ class BinaryClassifierTab:
         self.predictBtn.setDisabled(True)
         self.saveBtn.setDisabled(True)
 
-        self.fileHandler.filePathInputBox.textChanged.connect(
+        self.binaryFileInputHandle.filePathInputBox.textChanged.connect(
             self.setupFunctionalComponents
         )
         self.config.headersListBox.itemSelectionChanged.connect(
@@ -99,10 +99,11 @@ class BinaryClassifierTab:
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
         self.predictBtn.clicked.connect(self.prediction)
         self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet)
+        self.saveBtn.clicked.connect(self.saveDataRecordFile)
 
     def setupFunctionalComponents(self):
         self.config.configGroupBox.setEnabled(True)
-        self.chosenFile = DataRecordFile(self.fileHandler.filePath)
+        self.chosenFile = DataRecordFile(self.binaryFileInputHandle.filePath)
         if self.chosenFile.fileType == "csv":
             self.config.selectSheet.setHidden(True)
             self.config.selectSheetComboBox.setHidden(True)
@@ -123,13 +124,14 @@ class BinaryClassifierTab:
             epochsCount=self.config.modelConfig.epochsSpinBox.value(),
             activationFunction=self.config.modelConfig.activationFunctionComboBox.currentText().lower(),
             optimizerType=self.config.modelConfig.optimizerComboBox.currentText(),
-            scaling=self.config.modelConfig.scalingTypeGroup.checkedButton().text()
+            scaling=self.config.modelConfig.scalingTypeGroup.checkedButton().text(),
         )
 
         self.config.modelConfig.trainingLabel.setHidden(True)
         self.predictor.trainModel()
         self.inputTable.table.setEnabled(True)
         self.predictBtn.setEnabled(True)
+        self.saveBtn.setEnabled(True)
 
     def prediction(self):
         if self.inputTable.containsEmptyCell():
@@ -141,3 +143,14 @@ class BinaryClassifierTab:
     def setupSheet(self):
         self.chosenFile.changeSheetXL(self.config.selectSheetComboBox.currentText())
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
+
+    def saveDataRecordFile(self):
+        name = self.binaryFileInputHandle.fileHandler.saveFile(
+            "*." + self.chosenFile.fileType
+        )
+        savePath = name[0]
+        if not savePath:
+            return
+
+        self.chosenFile.saveDataRecordFile(savePath, self.inputTable.getTableData(extractOutcomeHeader=True))
+        #add a save dialog box

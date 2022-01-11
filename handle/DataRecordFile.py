@@ -87,3 +87,30 @@ class DataRecordFile:
             data.append(rowData)
 
         return data
+
+    def saveDataRecordFile(self, savePath, data):
+        if self.fileType == "csv":
+            self.saveCsv(
+                savePath, data
+            )
+        else:
+            self.saveXL(
+                savePath, data
+            )
+
+    def saveCsv(self, savePath, data):
+        outputFile = open(savePath, 'w',newline='')
+        writer = csv.writer(outputFile)
+        for row in data:
+            writer.writerow(row)
+        outputFile.close()
+
+    def saveXL(self, savePath, data):
+        wb = openpyxl.Workbook()
+        sheet = wb.active
+
+        for row, rowData in enumerate(data):
+            for column, cellData in enumerate(rowData):
+                sheet.cell(row=row+1, column=column+1).value = cellData 
+
+        wb.save(savePath)
