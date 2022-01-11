@@ -151,8 +151,8 @@ class ImageRecognizerTab:
         # if no people present won't work, fd won't work, align the labels, overflow block
         for item, index  in zip(self.resultData[0].items(),range(len(self.resultData[0]))):
             key, value = item
-            self.resultLabels[index].setGeometry(QtCore.QRect(540, 540 + 30 * index, 300, 21))
-            self.resultLabels[index].setText(key + ': ' + value)
+            self.resultLabels[index].setGeometry(QtCore.QRect(540, 535 + 30 * index, 300, 21))
+            self.resultLabels[index].setText(key + ': ' + value.title())
 
 
 
