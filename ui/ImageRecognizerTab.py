@@ -32,7 +32,7 @@ class ImageRecognizerTab:
         self.resultLabel = QtWidgets.QLabel(self.imageRecognitionFrame)
         self.accuracyLabel = QtWidgets.QLabel(self.imageRecognitionFrame)
         self.extraLabel = QtWidgets.QLabel(self.imageRecognitionFrame)
-        self.pushButton = QtWidgets.QPushButton(self.imageRecognitionFrame)
+        self.submitButton = QtWidgets.QPushButton(self.imageRecognitionFrame)
         self.imageRecognitionLine5 = QtWidgets.QFrame(self.imageRecognitionFrame)
 
         self.imageFilters = "Image File (*.jpg *.jpeg *.png) "
@@ -114,9 +114,9 @@ class ImageRecognizerTab:
         self.imageRecognitionLine4.setFrameShape(QtWidgets.QFrame.HLine)
         self.imageRecognitionLine4.setFrameShadow(QtWidgets.QFrame.Sunken)
 
-        self.pushButton.setGeometry(QtCore.QRect(530, 620, 151, 28))
-        self.pushButton.setText("Submit")
-        self.pushButton.clicked.connect(self.runRecognizer)
+        self.submitButton.setGeometry(QtCore.QRect(530, 620, 151, 28))
+        self.submitButton.setText("Submit")
+        self.submitButton.clicked.connect(self.runRecognizer)
 
         self.imageRecognitionLine5.setGeometry(QtCore.QRect(0, 650, 1221, 20))
         self.imageRecognitionLine5.setFrameShape(QtWidgets.QFrame.HLine)
@@ -138,16 +138,16 @@ class ImageRecognizerTab:
             
         self.recognitionType = self.recognitionTypeGroup.checkedButton().text()
         self.setResultHeaderLabel()
-        self.pushButton.setDisabled(True)
-        self.pushButton.setText('Loading...')
-        self.pushButton.repaint()
+        self.submitButton.setDisabled(True)
+        self.submitButton.setText('Loading...')
+        self.submitButton.repaint()
 
 
         apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
         self.resultData = apiHandler.APIHandle()
         
-        self.pushButton.setEnabled(True)
-        self.pushButton.setText('Submit')
+        self.submitButton.setEnabled(True)
+        self.submitButton.setText('Submit')
         print(self.resultData)
         self.displayResults()
 
