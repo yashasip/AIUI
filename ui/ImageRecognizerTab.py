@@ -135,12 +135,18 @@ class ImageRecognizerTab:
     def runRecognizer(self):
         self.recognitionType = self.recognitionTypeGroup.checkedButton().text()
         self.setResultHeaderLabel()
+        self.pushButton.setDisabled(True)
+        self.pushButton.setText('Loading...')
+        self.pushButton.repaint()
 
         if not self.imagePathInputBox.text(): # dialog box
             return
 
         apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
         self.resultData = apiHandler.APIHandle()
+        
+        self.pushButton.setEnabled(True)
+        self.pushButton.setText('Submit')
         print(self.resultData)
         self.displayResults()
 
