@@ -27,21 +27,21 @@ class ImaggaAPIHandler:
             auth=(API_KEY, API_SECRET)
         )
         self.resultJson = response.json()
-        # print(self.resultJson)
+        print(self.resultJson)
 
     def imageCategorizer(self):
         response = requests.get(
         'https://api.imagga.com/v2/categories/%s?image_upload_id=%s' % (self.categorizerId, self.uploadId),
         auth=(API_KEY, API_SECRET))
         self.resultJson = response.json()
-        # print(self.resultJson)
+        print(self.resultJson)
 
     def imageFacialDetection(self):
         response = requests.get(
         'https://api.imagga.com/v2/faces/detections?image_upload_id=%s&return_face_attributes=1' % (self.uploadId),
         auth=(API_KEY, API_SECRET))
         self.resultJson = response.json()
-        # print(self.resultJson)
+        print(self.resultJson)
 
     def deleteUploadedImage(self):
         response = requests.delete(
@@ -76,8 +76,7 @@ class ImaggaAPIHandler:
             for item in self.resultJson["result"]["faces"]:
                 parsedData = {}
                 parsedData["Accuracy"] = str(round((item['attributes'][0]['confidence'] + item['attributes'][1]['confidence'] + item['attributes'][2]['confidence'])/3,2)) + '%'
-                parsedData['Age Group'] = item['attributes'][0]['label']
-                parsedData['Gender'] = item['attributes'][1]['label']
+                parsedData['Age Group & Gender'] = item['attributes'][0]['label'] + ' ' +item['attributes'][1]['label']
                 parsedData['Ethnicity'] = item['attributes'][2]['label']
 
                 parsedResultData.append(parsedData)
