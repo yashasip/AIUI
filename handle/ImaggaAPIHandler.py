@@ -62,7 +62,7 @@ class ImaggaAPIHandler:
 
         elif self.recognitionType == 'Categorize':
             parsedResultData = []
-            print(type(self.resultJson["result"]["categories"]))
+            
             for item in self.resultJson["result"]["categories"]:
                 parsedData = {}
                 parsedData["Accuracy"] = str(round(item['confidence'],2)) + '%'

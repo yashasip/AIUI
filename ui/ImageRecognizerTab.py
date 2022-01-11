@@ -153,13 +153,22 @@ class ImageRecognizerTab:
     def displayResults(self):
         for item in self.resultLabels:
             item.setText('')
+        
+        if not self.resultData:
+            self.displayNoResults()
+            return
 
-        # if no people present won't work, fd won't work, align the labels, overflow block
-        for item, index  in zip(self.resultData[0].items(),range(len(self.resultData[0]))):
+        for index, item  in enumerate(self.resultData[0].items()):
             key, value = item
             self.resultLabels[index].setGeometry(QtCore.QRect(540, 535 + 30 * index, 300, 21))
             self.resultLabels[index].setText(key + ': ' + value.title())
 
+    def displayNoResults(self):
+        self.resultLabels[1].setGeometry(QtCore.QRect(540, 565, 300, 21))
+        if self.recognitionType == 'Facial Detection':
+            self.resultLabels[1].setText('No human faces detected in this image')
+        else:
+            self.resultLabels[1].setText('No Results Found')
 
 
     def setResultHeaderLabel(self):
