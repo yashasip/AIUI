@@ -1,3 +1,4 @@
+from os import terminal_size
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from handle.FileHandle import FileHandle
@@ -33,6 +34,7 @@ class ImageRecognizerTab:
         self.accuracyLabel = QtWidgets.QLabel(self.imageRecognitionFrame)
         self.extraLabel = QtWidgets.QLabel(self.imageRecognitionFrame)
         self.submitButton = QtWidgets.QPushButton(self.imageRecognitionFrame)
+        self.viewJsonResults = QtWidgets.QPushButton(self.imageRecognitionFrame)
         self.imageRecognitionLine5 = QtWidgets.QFrame(self.imageRecognitionFrame)
 
         self.imageFilters = "Image File (*.jpg *.jpeg *.png) "
@@ -118,6 +120,11 @@ class ImageRecognizerTab:
         self.submitButton.setText("Submit")
         self.submitButton.clicked.connect(self.runRecognizer)
 
+        self.viewJsonResults.setGeometry(QtCore.QRect(1062, 620, 132, 24))
+        self.viewJsonResults.setText('View Json Results')
+        self.viewJsonResults.setHidden(True)
+        self.viewJsonResults.clicked.connect(self.viewJsonResultsWindow)
+
         self.imageRecognitionLine5.setGeometry(QtCore.QRect(0, 650, 1221, 20))
         self.imageRecognitionLine5.setFrameShape(QtWidgets.QFrame.HLine)
         self.imageRecognitionLine5.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -143,8 +150,8 @@ class ImageRecognizerTab:
         self.submitButton.repaint()
 
 
-        apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
-        self.resultData = apiHandler.APIHandle()
+        self.apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
+        self.resultData = self.apiHandler.APIHandle()
         
         self.submitButton.setEnabled(True)
         self.submitButton.setText('Submit')
@@ -158,6 +165,8 @@ class ImageRecognizerTab:
         if not self.resultData:
             self.displayNoResults()
             return
+
+        self.viewJsonResults.setVisible(True)
 
         for index, item  in enumerate(self.resultData[0].items()):
             key, value = item
@@ -174,6 +183,30 @@ class ImageRecognizerTab:
 
     def setResultHeaderLabel(self):
         self.resultHeadingLabel.setText(self.recognitionType)
+
+    def viewJsonResultsWindow(self):
+        self.setupJsonResultsWindow(self.apiHandler.getJsonResult())
+
+    def setupJsonResultsWindow(self, results):
+        jsonResultsWindow = QtWidgets.QDialog()
+        jsonResultsWindow.resize(509, 469)
+
+        self.jsonResultsTextBox = QtWidgets.QPlainTextEdit(jsonResultsWindow)
+        self.jsonResultsTextBox.setGeometry(QtCore.QRect(20, 40, 471, 381))
+        self.jsonResultsTextBox.setPlainText(results)
+
+        self.okButton = QtWidgets.QPushButton(jsonResultsWindow)
+        self.okButton.setGeometry(QtCore.QRect(210, 430, 93, 28))
+        self.okButton.clicked.connect(lambda: jsonResultsWindow.done(0))
+
+        self.jsonResultsLabel = QtWidgets.QLabel(jsonResultsWindow)
+        self.jsonResultsLabel.setGeometry(QtCore.QRect(20, 10, 91, 21))
+
+        jsonResultsWindow.setWindowTitle("All Results")
+        self.okButton.setText("OK")
+
+        self.jsonResultsLabel.setText("Json Results")
+        jsonResultsWindow.show()
 
         
     

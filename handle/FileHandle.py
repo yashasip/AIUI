@@ -11,7 +11,6 @@ class FileHandle:
         fileObj = QtWidgets.QFileDialog.getOpenFileName(
             parent=self.parentWidget,
             caption = 'Choose File',
-            directory= os.getcwd(),
             filter = self.fileFilter
         )
         if fileObj[0]: # if no file is chosen / Cancel button is clicked
