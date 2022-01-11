@@ -136,7 +136,7 @@ class ImageRecognizerTab:
         self.recognitionType = self.recognitionTypeGroup.checkedButton().text()
         self.setResultHeaderLabel()
 
-        if self.imagePathInputBox: # dialog box
+        if not self.imagePathInputBox.text(): # dialog box
             return
 
         apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
