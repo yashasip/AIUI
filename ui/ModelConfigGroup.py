@@ -4,7 +4,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class ModelConfigGroup:
     def __init__(self, parent) -> None:
         self.ModelConfigBox = QtWidgets.QGroupBox(parent)
-        # self.modelTrainProgressBar = QtWidgets.QProgressBar(self.ModelConfigBox)
         self.trainButton = QtWidgets.QPushButton(self.ModelConfigBox)
         self.epochsSpinBox = QtWidgets.QSpinBox(self.ModelConfigBox)
         self.EpochsLabel = QtWidgets.QLabel(self.ModelConfigBox)
@@ -29,8 +28,6 @@ class ModelConfigGroup:
         self.ModelConfigBox.setTitle("Model Config")
         self.ModelConfigBox.setDisabled(True)
 
-        # self.modelTrainProgressBar.setGeometry(QtCore.QRect(170, 270, 271, 23))
-        # self.modelTrainProgressBar.setProperty("value", 0)
         self.trainingLabel.setGeometry(QtCore.QRect(258, 270, 271, 23))
         self.trainingLabel.setText('Training...')
         self.trainingLabel.setHidden(True)
@@ -44,8 +41,6 @@ class ModelConfigGroup:
         self.epochsSpinBox.setMaximum(self.maximumEpochsSpinBox)
         self.epochsSpinBox.setMinimum(self.minimumEpochsSpinBox)
         self.epochsSpinBox.setValue(self.defaultSpinBoxValue)
-
-
 
 
         self.EpochsLabel.setGeometry(QtCore.QRect(30, 40, 51, 31))

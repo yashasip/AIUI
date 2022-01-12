@@ -55,7 +55,7 @@ class DataPredictor:
             self.std = StandardScaler().fit(self.x_train)
             self.x_train_scaled = pd.DataFrame(self.std.transform(self.x_train))
             self.x_test_scaled = pd.DataFrame(self.std.transform(self.x_test))
-        else:
+        else:# defaults to normalization
             self.norm = MinMaxScaler().fit(self.x_train)
             self.x_train_scaled = pd.DataFrame(self.norm.transform(self.x_train))
             self.x_test_scaled = pd.DataFrame(self.norm.transform(self.x_test))
@@ -81,7 +81,7 @@ class DataPredictor:
 
         self.model.fit(
             self.x_train_scaled, self.y_train, epochs=self.epochsCount
-        )  # *** epochs as variable
+        ) 
 
     def evaluateModel(self):
         self.model.evaluate(self.x_test_scaled, self.y_test)

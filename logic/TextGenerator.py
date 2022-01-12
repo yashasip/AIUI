@@ -116,7 +116,7 @@ class TextGenerator:
         self.fitModel()
 
 
-    def generateText(self, input, predictCharcaterCount=1000):
+    def generateText(self, input, predictCharcaterCount=1000): # gets generated text based on new user model or loaded existing model
         if self.generationType == 'LOAD':
             predictedText = self.generateTextLoadedModel(input, predictCharcaterCount)
         else:

@@ -33,16 +33,15 @@ class MainWindow(object):
         # Tab Set
         self.tabBar.addTab(self.tabs[0].tab, "Binary Classifier")
 
-        self.tabs.append(ImageRecognizerTab())  # first tab
+        self.tabs.append(ImageRecognizerTab())  # second tab
 
         self.tabBar.addTab(self.tabs[1].tab, "Image Recognition")
 
         self.mainLayout.addWidget(self.tabBar)
 
-        self.tabs.append(TextGeneratorTab())  # first tab
+        self.tabs.append(TextGeneratorTab())  # third tab
         self.tabBar.addTab(self.tabs[2].tab, "Text Generator")
 
-        # Menu Bar set
         self.statusbar = QtWidgets.QStatusBar(self.mainWindow)
         self.mainWindow.setStatusBar(self.statusbar)
 

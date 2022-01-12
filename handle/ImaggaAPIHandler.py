@@ -47,7 +47,7 @@ class ImaggaAPIHandler:
         'https://api.imagga.com/v2/uploads/%s' % (self.uploadId),
         auth=(API_KEY, API_SECRET))
 
-    def jsonDataParser(self):
+    def jsonDataParser(self): # parses json data
         if self.recognitionType == 'Tagging':
             parsedResultData = []
             for item in self.resultJson["result"]["tags"]:
@@ -73,6 +73,7 @@ class ImaggaAPIHandler:
             for item in self.resultJson["result"]["faces"]:
                 parsedData = {}
                 parsedData["Accuracy"] = str(round((item['attributes'][0]['confidence'] + item['attributes'][1]['confidence'] + item['attributes'][2]['confidence'])/3,2)) + '%'
+                # merges two result values to single value
                 parsedData['Age Group & Gender'] = item['attributes'][0]['label'] + ' ' +item['attributes'][1]['label']
                 parsedData['Ethnicity'] = item['attributes'][2]['label']
 
@@ -98,5 +99,5 @@ class ImaggaAPIHandler:
         if self.resultJson['status']['type'] == 'success':
             self.data = self.jsonDataParser()
             return self.data
-        else:
+        else: # in case of failure
             return []

@@ -17,9 +17,9 @@ class TextDataFileHandle:
 
     def setupTextDataFile(self):
         if self.filePath.startswith("https://") or self.filePath.startswith("http://"):
-            self.scrapePdf()
+            self.scrapePdf() # scrape pdf when link is given
             self.filePath = "inputPDF.pdf"
-        if self.fileType == "pdf":
+        if self.fileType == "pdf": # also called after scraping and when pdf file is chosen 
             pdfFile = open(self.filePath, "rb")
             self.reader = PyPDF2.PdfFileReader(pdfFile)
             self.pageCount = self.reader.numPages
@@ -39,7 +39,7 @@ class TextDataFileHandle:
 
         return pdfData
 
-    def readDocx(self, start=0):
+    def readDocx(self):
         doc = docx.Document(self.filePath)
         fullText = []
         for para in doc.paragraphs:
@@ -53,7 +53,7 @@ class TextDataFileHandle:
             file.write(chunk)
         file.close()
 
-    def saveTextDataFile(self,path, content):
+    def saveTextDataFile(self,path, content): # saves as doc always
         newDoc = docx.Document()
         newDoc.add_paragraph(content)
         newDoc.save(path)        

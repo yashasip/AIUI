@@ -77,10 +77,12 @@ class BinaryClassifierTab:
 
         self.predictBtn.setDisabled(True)
         self.saveBtn.setDisabled(True)
-
+        
+        # on choosing file
         self.binaryFileInputHandle.filePathInputBox.textChanged.connect(
             self.setupFunctionalComponents
         )
+        # on item selection changed in headersListBox
         self.config.headersListBox.itemSelectionChanged.connect(
             lambda: self.inputTable.setupTable(
                 self.config.getSelectedHeaders(),
@@ -90,12 +92,14 @@ class BinaryClassifierTab:
         self.config.headersListBox.itemSelectionChanged.connect(
             self.config.toggleModelConfig
         )
+        # outcomeHeaderComboBox selection changed
         self.config.outcomeHeaderComboBox.currentTextChanged.connect(
             lambda: self.inputTable.setupTable(
                 list(self.config.headersListBox.selectedItems()),
                 self.config.outcomeHeaderComboBox.currentText(),
             )
         )
+
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
         self.predictBtn.clicked.connect(self.prediction)
         self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet)
@@ -104,7 +108,7 @@ class BinaryClassifierTab:
     def setupFunctionalComponents(self):
         self.config.configGroupBox.setEnabled(True)
         self.chosenFile = DataRecordFile(self.binaryFileInputHandle.filePath)
-        if self.chosenFile.fileType == "csv":
+        if self.chosenFile.fileType == "csv": # hide select sheet combo box for csv
             self.config.selectSheet.setHidden(True)
             self.config.selectSheetComboBox.setHidden(True)
         else:
@@ -135,13 +139,13 @@ class BinaryClassifierTab:
         self.saveBtn.setEnabled(True)
 
     def prediction(self):
-        if self.inputTable.containsEmptyCell():
+        if self.inputTable.containsEmptyCell(): # empty cell check
             return  # *** display dialog box
         tableData = self.inputTable.getTableData()
         predictions = self.predictor.predict(tableData)
         self.inputTable.setResultCells(predictions)
 
-    def setupSheet(self):
+    def setupSheet(self): # sets up selectSheet combo box value and all related widgets when sheet changed
         if self.chosenFile.fileType == 'csv':
             self.config.selectSheet.setHidden(True)
             self.config.selectSheetComboBox.setHidden(True)
@@ -157,7 +161,7 @@ class BinaryClassifierTab:
             "*." + self.chosenFile.fileType
         )
         savePath = name[0]
-        if not savePath:
+        if not savePath: # if cancel is hit in file dialog box
             return
 
         self.chosenFile.saveDataRecordFile(savePath, self.inputTable.getTableData(extractOutcomeHeader=True))

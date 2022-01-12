@@ -22,7 +22,7 @@ class DataTable:
 
     def setupTable(self, selectedItems, outcomeHeader):
         self.table.clear()
-        self.headers = selectedItems + [outcomeHeader]
+        self.headers = selectedItems + [outcomeHeader] # append all header values
 
         self.table.setColumnCount(len(self.headers))
         self.table.setHorizontalHeaderLabels(self.headers)
@@ -32,7 +32,7 @@ class DataTable:
         self.setupTableCells()
 
     
-    def setupTableCells(self):
+    def setupTableCells(self): # sets up all cells in the table
         for row in range(self.table.rowCount()):
             for column in range(self.table.columnCount()):
                 if self.table.item(row,column) is None:
@@ -50,7 +50,7 @@ class DataTable:
 
         self.table.setRowCount(self.table.rowCount() - 1)
 
-    def containsEmptyCell(self):
+    def containsEmptyCell(self): # returns True if empty cell found, does not consider the last header
         for row in range(self.table.rowCount()):
             for column in range(self.table.columnCount()):
                 if column == self.table.columnCount() - 1:
@@ -60,7 +60,7 @@ class DataTable:
 
         return False
 
-    def getTableData(self, extractOutcomeHeader = False):
+    def getTableData(self, extractOutcomeHeader = False): # gets all table data, option to extract last header cell values
         tableData = []
         for row in range(self.table.rowCount()):
             rowData = []
@@ -72,7 +72,7 @@ class DataTable:
             tableData.append(rowData)
         return tableData
 
-    def setResultCells(self, predictions):
+    def setResultCells(self, predictions): # sets all last header cell values
         column = self.table.columnCount() - 1
 
 

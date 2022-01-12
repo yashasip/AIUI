@@ -44,9 +44,9 @@ class ConfigGroup:
     def setupOutcomeHeaders(self, header_choices):
         self.outcomeHeaderComboBox.clear()
         self.outcomeHeaderComboBox.addItems(header_choices)
-        self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices) - 1)
+        self.outcomeHeaderComboBox.setCurrentIndex(len(header_choices) - 1) # sets to last header column name 
 
-    def setupHeadersListBox(self):
+    def setupHeadersListBox(self): # sets all header values based on outcomeHeadersComboBoxValues
         headersList = [
             self.outcomeHeaderComboBox.itemText(i)
             for i in range(self.outcomeHeaderComboBox.count())
@@ -71,7 +71,7 @@ class ConfigGroup:
 
         return selectedHeaders
 
-    def getSelectedHeadersIndex(self):
+    def getSelectedHeadersIndex(self): # returns selectedHeaders index list which is in the ascending order
         selectedHeaders = []
         for i in range(self.headersListBox.count()):
             if self.headersListBox.item(i).isSelected():
@@ -79,7 +79,7 @@ class ConfigGroup:
 
         return selectedHeaders
 
-    def toggleModelConfig(self):
+    def toggleModelConfig(self): # toggles between disable and enable states 
         if len(self.headersListBox.selectedIndexes()) < 1:
             self.modelConfig.ModelConfigBox.setDisabled(True)
             return

@@ -153,10 +153,10 @@ class ImageRecognizerTab:
         self.apiHandler = ImaggaAPIHandler(self.imagePath, self.recognitionType)
         try:
             self.resultData = self.apiHandler.APIHandle()
-        except exceptions.ConnectionError:
+        except exceptions.ConnectionError: # no internet connection
             self.displayNoResults('Connection Error')
             return
-        finally:
+        finally: # enable submit again
             self.submitButton.setEnabled(True)
             self.submitButton.setText('Submit')
         
@@ -170,14 +170,14 @@ class ImageRecognizerTab:
             self.displayNoResults()
             return
 
-        self.viewJsonResults.setVisible(True)
+        self.viewJsonResults.setVisible(True) # set viewJsonRessults button visible
 
         for index, item  in enumerate(self.resultData[0].items()):
             key, value = item
             self.resultLabels[index].setGeometry(QtCore.QRect(540, 535 + 30 * index, 300, 21))
             self.resultLabels[index].setText(key + ': ' + value.title())
 
-    def displayNoResults(self, failMessageType):
+    def displayNoResults(self, failMessageType): # displays appropriate message on failure
         self.resultLabels[1].setGeometry(QtCore.QRect(540, 565, 300, 21))
         if failMessageType == 'Facial Detection':
             self.resultLabels[1].setText('No human faces detected in this image')
@@ -193,7 +193,7 @@ class ImageRecognizerTab:
     def viewJsonResultsWindow(self):
         self.setupJsonResultsWindow(self.apiHandler.getJsonResult())
 
-    def setupJsonResultsWindow(self, results):
+    def setupJsonResultsWindow(self, results): # view results json dialog window
         jsonResultsWindow = QtWidgets.QDialog()
         jsonResultsWindow.resize(509, 469)
 

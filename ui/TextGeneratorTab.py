@@ -103,7 +103,7 @@ class TextGeneratorTab():
         self.epochsSpinBox.setGeometry(QtCore.QRect(160, 120, 81, 31))
         self.epochsSpinBox.setMaximum(1000)
         self.epochsSpinBox.setMinimum(1)
-        self.epochsSpinBox.setValue(20)
+        self.epochsSpinBox.setValue(20) # set default value
 
         self.epochsLabel.setGeometry(QtCore.QRect(30, 120, 71, 31))
         self.epochsLabel.setText("Epochs")
@@ -121,7 +121,7 @@ class TextGeneratorTab():
         self.temperatureSpinBox.setProperty("value", 0.5)
         self.temperatureSpinBox.setMinimum(0.01)
         self.temperatureSpinBox.setMaximum(1)
-        self.temperatureSpinBox.setSingleStep(0.1)
+        self.temperatureSpinBox.setSingleStep(0.1) # set incremental value and arrow click of spin box
         self.temperatureLabel.setText("Temperature")
 
         self.sequenceLengthLabel.setGeometry(QtCore.QRect(30, 330, 111, 31))
@@ -207,14 +207,14 @@ class TextGeneratorTab():
         temperature=self.temperatureSpinBox.value(),
         sequenceLength=self.sequenceLengthSpinBox.value(),
         batchSize=self.batchSizeSpinBox.value())
-        self.textGenerator.setupModel()
+        self.textGenerator.setupModel() # creates a model
         self.saveModelButton.setEnabled(True)
 
     def fancyWriter(self, content):
         self.typeSpaceBox.setReadOnly(True)
         for index in range(len(content)):
             self.typeSpaceBox.ensureCursorVisible()
-            self.typeSpaceBox.setPlainText(content[:index])
+            self.typeSpaceBox.setPlainText(content[:index]) # sets character by character gives an illusion of typing
             QtTest.QTest.qWait(30)
         self.typeSpaceBox.setReadOnly(False)
 
@@ -222,13 +222,13 @@ class TextGeneratorTab():
         if self.typeSpaceBox.toPlainText() == '':
             return
 
-        generatedText = self.textGenerator.generateText(self.typeSpaceBox.toPlainText())
+        generatedText = self.textGenerator.generateText(self.typeSpaceBox.toPlainText()) # get predicted text
         self.fancyWriter(content=generatedText)
 
     def saveModel(self):
         self.textGenerator.saveModel()
 
-    def loadExistingModel(self):
+    def loadExistingModel(self): # load model function
         self.loadModelHandle = FileHandle(self.textGeneratorFrame,fileFilter='Model (*.pb)')
         self.loadModelPath = self.loadModelHandle.openDirectory()
         if not self.loadModelPath:
@@ -241,7 +241,7 @@ class TextGeneratorTab():
             "*.docx" 
         )
         savePath = pathObj[0]
-        if not savePath:
+        if not savePath: # if cancel button not hit
             return
 
         self.chosenDataFile.saveTextDataFile(savePath, self.typeSpaceBox.toPlainText())
