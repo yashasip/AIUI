@@ -1,5 +1,4 @@
-import csv
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from handle.DataRecordFile import DataRecordFile
 from logic.DataPredictor import DataPredictor
 
