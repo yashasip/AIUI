@@ -42,7 +42,6 @@ class DataPredictor:
         self.data = pd.DataFrame(self.data)
 
     def splitData(self):
-        print(self.data.head())
         self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(
             self.data[range(len(self.selectedHeadersIndex))],
             self.data[[len(self.selectedHeadersIndex)]],
@@ -85,7 +84,7 @@ class DataPredictor:
         )  # *** epochs as variable
 
     def evaluateModel(self):
-        print(self.model.evaluate(self.x_test_scaled, self.y_test))
+        self.model.evaluate(self.x_test_scaled, self.y_test)
 
     def predict(self, inputData):
         inputData = pd.DataFrame(inputData)

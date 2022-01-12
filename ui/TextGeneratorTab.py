@@ -30,7 +30,6 @@ class TextGeneratorTab():
 
         self.optimizerLabel = QtWidgets.QLabel(self.configGroupBox)
         self.optimizerComboBox = QtWidgets.QComboBox(self.configGroupBox)
-        self.optimizerComboBox.addItems(['Adam','Adagrad','Adadelta','Adamax','Ftrl','Nadam','SGD','RMSprop'])
         
         self.trainButton = QtWidgets.QPushButton(self.configGroupBox)
         self.saveModelButton = QtWidgets.QPushButton(self.configGroupBox)
@@ -104,7 +103,7 @@ class TextGeneratorTab():
         self.epochsSpinBox.setGeometry(QtCore.QRect(160, 120, 81, 31))
         self.epochsSpinBox.setMaximum(1000)
         self.epochsSpinBox.setMinimum(1)
-        self.epochsSpinBox.setValue(1)
+        self.epochsSpinBox.setValue(20)
 
         self.epochsLabel.setGeometry(QtCore.QRect(30, 120, 71, 31))
         self.epochsLabel.setText("Epochs")
@@ -113,6 +112,7 @@ class TextGeneratorTab():
         self.optimizerLabel.setText("Optimizer")
 
         self.optimizerComboBox.setGeometry(QtCore.QRect(160, 190, 181, 31))
+        self.optimizerComboBox.addItems(['Adam','Adagrad','Adadelta','Adamax','Ftrl','Nadam','SGD','RMSprop'])
 
         self.temperatureLabel.setGeometry(QtCore.QRect(30, 260, 91, 31))
 

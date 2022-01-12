@@ -160,7 +160,6 @@ class ImageRecognizerTab:
             self.submitButton.setEnabled(True)
             self.submitButton.setText('Submit')
         
-        print(self.resultData)
         self.displayResults()
 
     def displayResults(self):
