@@ -233,6 +233,8 @@ class TextGeneratorTab():
         self.loadModelPath = self.loadModelHandle.openDirectory()
         if not self.loadModelPath:
             return 
+            
+        self.fileInputPathBox.setText(self.loadModelPath)
         self.textGenerator = TextGenerator(generationType='LOAD')
         self.textGenerator.loadModel(self.loadModelPath)
 
