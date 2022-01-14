@@ -176,9 +176,9 @@ class ImageRecognizerTab:
             self.resultLabels[index].setGeometry(QtCore.QRect(540, 535 + 30 * index, 300, 21))
             self.resultLabels[index].setText(key + ': ' + value.title())
 
-    def displayNoResults(self, failMessageType): # displays appropriate message on failure
+    def displayNoResults(self, failMessageType=None): # displays appropriate message on failure
         self.resultLabels[1].setGeometry(QtCore.QRect(540, 565, 300, 21))
-        if failMessageType == 'Facial Detection':
+        if self.recognitionType == 'Facial Detection':
             self.resultLabels[1].setText('No human faces detected in this image')
         elif failMessageType == 'Connection Error':
             self.resultLabels[1].setText('No internet connection found')
