@@ -61,7 +61,6 @@ class ImageRecognizerTab:
 
         self.imagePathInputBox.setGeometry(QtCore.QRect(270, 10, 601, 31))
         self.imagePathInputBox.setReadOnly(True)
-        # self.imagePathInputBox.textChanged.connect(self.runRecognizer)
 
         self.imageFileLabel.setGeometry(QtCore.QRect(190, 10, 71, 31))
         self.imageFileLabel.setText("Image File:")
