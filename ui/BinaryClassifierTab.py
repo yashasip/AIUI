@@ -8,6 +8,7 @@ from ui.DataTable import DataTable
 
 
 class BinaryClassifierTab:
+    '''Bonary Classifir Tab component Ui elements setup and Functionalities'''
     def __init__(self) -> None:
         self.tab = QtWidgets.QWidget()
         self.tabLayout = QtWidgets.QWidget(self.tab)
@@ -101,26 +102,26 @@ class BinaryClassifierTab:
 
         self.config.modelConfig.trainButton.clicked.connect(self.trainModel)
         self.predictBtn.clicked.connect(self.prediction)
-        self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet)
-        self.saveBtn.clicked.connect(self.saveDataRecordFile)
+        self.config.selectSheetComboBox.currentTextChanged.connect(self.setupSheet) # setup sheetComboBox when excel file selected
+        self.saveBtn.clicked.connect(self.saveDataRecordFile) # save excel and csv file
 
-    def setupFunctionalComponents(self):
-        self.config.configGroupBox.setEnabled(True)
+    def setupFunctionalComponents(self): # sets up all The ui elements of the Binary classifier based on file chosen
+        self.config.configGroupBox.setEnabled(True) # 
         self.chosenFile = DataRecordFile(self.binaryFileInputHandle.filePath)
         if self.chosenFile.fileType == "csv": # hide select sheet combo box for csv
             self.config.selectSheet.setHidden(True)
             self.config.selectSheetComboBox.setHidden(True)
-        else:
+        else: # sets visible when excel file chosen
             self.config.selectSheet.setVisible(True)
             self.config.selectSheetComboBox.setVisible(True)
 
         if self.chosenFile.fileType != "csv":
-            self.config.setupSelectSheetComboBox(self.chosenFile.sheetNames)
+            self.config.setupSelectSheetComboBox(self.chosenFile.sheetNames) # sets up the sheet combo box
             self.setupSheet()
         self.config.setupOutcomeHeaders(self.chosenFile.headers)
 
-    def trainModel(self):
-        self.config.modelConfig.trainingLabel.setHidden(False)
+    def trainModel(self): # creates a DataPredictor object to train a model and later prediction is done when train button is hit
+        self.config.modelConfig.trainingLabel.setHidden(False) # set training label indication as visible
         self.predictor = DataPredictor(
             dataRecord=self.chosenFile,
             selectedHeadersIndex=self.config.getSelectedHeadersIndex(),
@@ -132,17 +133,17 @@ class BinaryClassifierTab:
         )
 
         self.config.modelConfig.trainingLabel.setHidden(True)
-        self.predictor.trainModel()
-        self.inputTable.table.setEnabled(True)
-        self.predictBtn.setEnabled(True)
+        self.predictor.trainModel() # trains model using the link
+        self.inputTable.table.setEnabled(True) # enables table for input after training
+        self.predictBtn.setEnabled(True)# sets up all buttons
         self.saveBtn.setEnabled(True)
 
-    def prediction(self):
+    def prediction(self): # extracts table data and calls predict function to predict probabilities
         if self.inputTable.containsEmptyCell(): # empty cell check
             return  # *** display dialog box
-        tableData = self.inputTable.getTableData()
-        predictions = self.predictor.predict(tableData)
-        self.inputTable.setResultCells(predictions)
+        tableData = self.inputTable.getTableData() # extract table data
+        predictions = self.predictor.predict(tableData) # compute predictions
+        self.inputTable.setResultCells(predictions) # sets up input table with predictions
 
     def setupSheet(self): # sets up selectSheet combo box value and all related widgets when sheet changed
         if self.chosenFile.fileType == 'csv':
@@ -151,14 +152,14 @@ class BinaryClassifierTab:
             return
 
         self.config.selectSheet.setVisible(True)
-        self.config.selectSheetComboBox.setVisible(True)
+        self.config.selectSheetComboBox.setVisible(True) # sets up the select sheet combo box
         self.chosenFile.changeSheetXL(self.config.selectSheetComboBox.currentText())
-        self.config.setupOutcomeHeaders(self.chosenFile.headers)
+        self.config.setupOutcomeHeaders(self.chosenFile.headers) # sets up combo box
 
     def saveDataRecordFile(self):
         name = self.binaryFileInputHandle.fileHandler.saveFile(
             "*." + self.chosenFile.fileType
-        )
+        ) # calls FileHandle and open directory File Dialog is called
         savePath = name[0]
         if not savePath: # if cancel is hit in file dialog box
             return

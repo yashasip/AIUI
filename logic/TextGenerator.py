@@ -5,6 +5,7 @@ import time
 
 
 class TextGenerator:
+    '''Creates a text generation model'''
     def __init__(self, fileData=None, epochsCount=20, optimizer = 'adam', temperature=0.5, sequenceLength=100, batchSize=64, generationType = 'NEW' ) -> None:
         self.textData = fileData
         self.epochsCount = epochsCount
@@ -15,10 +16,10 @@ class TextGenerator:
         self.generationType = generationType
 
 
-    def getUniqueCharacters(self):
+    def getUniqueCharacters(self): # list and sort all unique characters
         self.vocab = sorted(set(self.textData))
 
-    def vectorizeText(self):
+    def vectorizeText(self): # vectorizing text 
         example_texts = ['abcdefg', 'xyz']
 
         chars = tf.strings.unicode_split(example_texts, input_encoding='UTF-8')
@@ -26,24 +27,24 @@ class TextGenerator:
         self.ids_from_chars = tf.keras.layers.StringLookup(
         vocabulary=list(self.vocab), mask_token=None)
 
-        ids = self.ids_from_chars(chars)
+        ids = self.ids_from_chars(chars) # create ids for each character
         chars_from_ids = tf.keras.layers.StringLookup(vocabulary=self.ids_from_chars.get_vocabulary(), invert=True, mask_token=None)
 
         self.chars_from_ids = tf.keras.layers.StringLookup(vocabulary=self.ids_from_chars.get_vocabulary(), invert=True, mask_token=None)
 
-        chars = chars_from_ids(ids)
+        chars = chars_from_ids(ids) 
 
         tf.strings.reduce_join(chars, axis=-1).numpy()
 
     def text_from_ids(self,ids):
-        return tf.strings.reduce_join(self.chars_from_ids(ids), axis=-1)
+        return tf.strings.reduce_join(self.chars_from_ids(ids), axis=-1) # redundant
 
     def prediction(self):
         all_ids = self.ids_from_chars(tf.strings.unicode_split(self.textData, 'UTF-8'))
 
         self.ids_dataset = tf.data.Dataset.from_tensor_slices(all_ids)
 
-    def setSequences(self):
+    def setSequences(self): # setting sequences
         seq_length = self.sequenceLength
 
         sequences = self.ids_dataset.batch(seq_length+1, drop_remainder=True)
@@ -58,7 +59,7 @@ class TextGenerator:
     def createTrainingBatches(self):
         BATCH_SIZE = self.batchSize
 
-        BUFFER_SIZE = 10000
+        BUFFER_SIZE = 10000 # buffer size
 
         self.dataset = (self.dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE, drop_remainder=True).prefetch(tf.data.experimental.AUTOTUNE))
 
@@ -72,7 +73,7 @@ class TextGenerator:
 
         self.model = MyModel(vocab_size=len(self.ids_from_chars.get_vocabulary()),embedding_dim=embedding_dim,rnn_units=rnn_units)
 
-    def getExampleBatchPredictions(self): 
+    def getExampleBatchPredictions(self):
         for input_example_batch, self.target_example_batch in self.dataset.take(1):
             self.example_batch_predictions = self.model(input_example_batch)
 
@@ -81,10 +82,10 @@ class TextGenerator:
         sampled_indices = tf.squeeze(sampled_indices, axis=-1).numpy()
 
     def trainModel(self):
-        loss = self.lossFunction()
+        loss = self.lossFunction() # get loss
         self.model.compile(optimizer=self.optimizer, loss=loss)
     
-    def lossFunction(self):
+    def lossFunction(self): # returns loss
         loss = tf.losses.SparseCategoricalCrossentropy(from_logits=True)
         example_batch_loss = loss(self.target_example_batch, self.example_batch_predictions)
         self.mean_loss = example_batch_loss.numpy().mean()
@@ -93,15 +94,15 @@ class TextGenerator:
 
         return loss
 
-    def configureCheckpoints(self):
-        checkpoint_dir = './training_checkpoints'
+    def configureCheckpoints(self): # checkpoints are created acts as a backup
+        checkpoint_dir = './training_checkpoints' # directory path with name of new checkpoint folder
         checkpoint_prefix = os.path.join(checkpoint_dir, "ckpt_{epoch}")
         self.checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_prefix, save_weights_only=True)
 
-    def fitModel(self):
+    def fitModel(self): # fitting the model
         history = self.model.fit(self.dataset, epochs=self.epochsCount, callbacks=[self.checkpoint_callback])
 
-    def setupModel(self):
+    def setupModel(self): # other classes can access this function to train the model.
         self.getUniqueCharacters()
         self.vectorizeText()
         self.prediction()
@@ -117,9 +118,9 @@ class TextGenerator:
 
 
     def generateText(self, input, predictCharcaterCount=1000): # gets generated text based on new user model or loaded existing model
-        if self.generationType == 'LOAD':
+        if self.generationType == 'LOAD': # if model is loaded
             predictedText = self.generateTextLoadedModel(input, predictCharcaterCount)
-        else:
+        else: # when model is trained from a pdf file
             predictedText = self.generateTextNewModel(input, predictCharcaterCount)
         return predictedText
         
@@ -160,20 +161,20 @@ class TextGenerator:
         return result[0].numpy().decode('utf-8')
     
 
-    def saveModel(self):
+    def saveModel(self): # saves model to local directory
       tf.saved_model.save(self.one_step_model, 'new_model')
     
-    def loadModel(self, path):
+    def loadModel(self, path): # loads existing model
       self.one_step_reloaded = tf.saved_model.load(path)
 
 
-class MyModel(tf.keras.Model):
+class MyModel(tf.keras.Model): # Model class, inherits from keras.Model
     def __init__(self, vocab_size, embedding_dim, rnn_units):
         super().__init__(self)
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
         self.gru = tf.keras.layers.GRU(rnn_units,
                                    return_sequences=True,
-                                   return_state=True)
+                                   return_state=True) # related parameters
         self.dense = tf.keras.layers.Dense(vocab_size)
 
     def call(self, inputs, states=None, return_state=False, training=False):
@@ -189,7 +190,7 @@ class MyModel(tf.keras.Model):
         else:
            return x
 
-class OneStep(tf.keras.Model):
+class OneStep(tf.keras.Model):  # Model class, inherits from keras.Model
     def __init__(self, model, chars_from_ids, ids_from_chars, temperature=0.5):
         super().__init__()
         self.temperature = temperature
@@ -208,7 +209,7 @@ class OneStep(tf.keras.Model):
         self.prediction_mask = tf.sparse.to_dense(sparse_mask)
 
     @tf.function
-    def generate_one_step(self, inputs, states=None):
+    def generate_one_step(self, inputs, states=None): # used for prediction
         # Convert strings to token IDs.
         input_chars = tf.strings.unicode_split(inputs, 'UTF-8')
         input_ids = self.ids_from_chars(input_chars).to_tensor()

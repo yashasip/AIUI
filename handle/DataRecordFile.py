@@ -4,10 +4,12 @@ import openpyxl
 
 class DataRecordFile:
     def __init__(self, filePath) -> None:
+        '''Handles Excel and Csv File data and related file operations
+        Takes filePath: Path to the Excel and CSV File'''
         self.filePath = filePath
-        self.fileType = self.getFileType()
-        self.sheetNames = []
-        self.headersPresent = False
+        self.fileType = self.getFileType() # determines extension of file
+        self.sheetNames = [] # empty list to store sheet names of excel
+        self.headersPresent = False # headers existence
         self.setupFile()
 
     def getFileType(self):
@@ -15,7 +17,7 @@ class DataRecordFile:
             if character == ".":
                 return self.filePath[-index:].lower()
 
-    def setupFile(self):
+    def setupFile(self): # setups excel and csv file using appropriate helper methods
         if self.fileType in ["xlsx", "xlsm", "xlsb", "xls"]:
             self.setupXL()
         else:
@@ -34,12 +36,12 @@ class DataRecordFile:
 
     def setupHeaders(self, headerRow): # sets up headers, if file data with no headers is extracted new header values are generated and assigned
         for header in headerRow:
-            if self.isNumber(header):
+            if self.isNumber(header): # checks for existence of headers names, if all cells have numbers its not a header row
                 return [f"Header {chr(65+i)}" for i in range(len(headerRow))]
-        self.headersPresent = True
+        self.headersPresent = True 
         return headerRow
 
-    def getHeadersXL(self): # get headers of each sheet
+    def getHeadersXL(self): # get headers of each sheet for excel
         return [
             self.currentSheet.cell(row=1, column=column).value
             for column in range(1, self.currentSheet.max_column + 1)
@@ -88,7 +90,7 @@ class DataRecordFile:
 
         return data
 
-    def saveDataRecordFile(self, savePath, data): # takes path as string and data as 2d list
+    def saveDataRecordFile(self, savePath, data): # takes path as string and data as 2d list, uses helper method to save files based on file extension
         if self.fileType == "csv":
             self.saveCsv(
                 savePath, data
@@ -98,14 +100,14 @@ class DataRecordFile:
                 savePath, data
             )
 
-    def saveCsv(self, savePath, data): # helper method to save csv
-        outputFile = open(savePath, 'w',newline='')
+    def saveCsv(self, savePath, data): # helper method to save csv saves data from 2d list given as data
+        outputFile = open(savePath, 'w',newline='') # opens a new file
         writer = csv.writer(outputFile)
         for row in data:
             writer.writerow(row)
         outputFile.close()
 
-    def saveXL(self, savePath, data): # helper method to save excel
+    def saveXL(self, savePath, data): # helper method to save excel saves data from 2d list given as data
         wb = openpyxl.Workbook()
         sheet = wb.active
 

@@ -6,6 +6,7 @@ from ui.TextGeneratorTab import TextGeneratorTab
 
 
 class MainWindow(object):
+    '''Main Window which consists of all window UI Elements'''
     def __init__(self) -> None:
         self.mainWindow = QtWidgets.QMainWindow()  # Main Window Creation
         self.tabs = list()
@@ -28,19 +29,19 @@ class MainWindow(object):
 
         self.tabBar = QtWidgets.QTabWidget(self.verticalLayoutWidget)
 
-        self.tabs.append(BinaryClassifierTab())  # first tab
+        self.tabs.append(BinaryClassifierTab())  # Binary Classifier tab
 
         # Tab Set
-        self.tabBar.addTab(self.tabs[0].tab, "Binary Classifier")
+        self.tabBar.addTab(self.tabs[0].tab, "Binary Classifier") # Add Binary Classifier tab
 
-        self.tabs.append(ImageRecognizerTab())  # second tab
+        self.tabs.append(ImageRecognizerTab())  # Image Recognition tab
 
-        self.tabBar.addTab(self.tabs[1].tab, "Image Recognition")
+        self.tabBar.addTab(self.tabs[1].tab, "Image Recognition") # Add Image Recognition tab 
 
         self.mainLayout.addWidget(self.tabBar)
 
-        self.tabs.append(TextGeneratorTab())  # third tab
-        self.tabBar.addTab(self.tabs[2].tab, "Text Generator")
+        self.tabs.append(TextGeneratorTab())  # Text Generator Tab
+        self.tabBar.addTab(self.tabs[2].tab, "Text Generator") # Add Text Generator Tab
 
         self.statusbar = QtWidgets.QStatusBar(self.mainWindow)
         self.mainWindow.setStatusBar(self.statusbar)

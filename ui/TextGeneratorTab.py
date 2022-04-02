@@ -5,6 +5,7 @@ from handle.TextDataFileHandle import TextDataFileHandle
 from logic.TextGenerator import TextGenerator
 
 class TextGeneratorTab():
+    ''' Text generator tab components '''
     def __init__(self) -> None:
         self.tab = QtWidgets.QWidget()
 

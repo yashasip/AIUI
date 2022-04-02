@@ -7,6 +7,7 @@ API_SECRET = "2f8013473730615cc2aa68d77b05e4ea"
 
 
 class ImaggaAPIHandler:
+    '''Handles the API takes path to image, type of image recognition'''
     def __init__(self, imagePath, recognitionType) -> None:
         self.imagePath = imagePath
         self.recognitionType = recognitionType
@@ -15,7 +16,7 @@ class ImaggaAPIHandler:
         self.uploadId = None
         self.result = None
 
-    def uploadImage(self):
+    def uploadImage(self): # uploads image to the api for Imagga server for recognition
         response = requests.post(
             "https://api.imagga.com/v2/uploads",
             auth=(API_KEY, API_SECRET),
@@ -23,31 +24,31 @@ class ImaggaAPIHandler:
         )
         self.uploadId = response.json()["result"]["upload_id"]
 
-    def imageTagging(self):
+    def imageTagging(self): # finds tags related to image
         response = requests.get(
             "https://api.imagga.com/v2/tags?image_upload_id=%s" % self.uploadId,
             auth=(API_KEY, API_SECRET)
         )
         self.resultJson = response.json()
 
-    def imageCategorizer(self):
+    def imageCategorizer(self): # categories related to image
         response = requests.get(
         'https://api.imagga.com/v2/categories/%s?image_upload_id=%s' % (self.categorizerId, self.uploadId),
         auth=(API_KEY, API_SECRET))
         self.resultJson = response.json()
 
-    def imageFacialDetection(self):
+    def imageFacialDetection(self): # detects faces in the image and sends determines Age & Group and Ethnicity
         response = requests.get(
         'https://api.imagga.com/v2/faces/detections?image_upload_id=%s&return_face_attributes=1' % (self.uploadId),
         auth=(API_KEY, API_SECRET))
         self.resultJson = response.json()
 
-    def deleteUploadedImage(self):
+    def deleteUploadedImage(self): # deleted the uploaded image
         response = requests.delete(
         'https://api.imagga.com/v2/uploads/%s' % (self.uploadId),
         auth=(API_KEY, API_SECRET))
 
-    def jsonDataParser(self): # parses json data
+    def jsonDataParser(self): # parses json data according to the recognition type
         if self.recognitionType == 'Tagging':
             parsedResultData = []
             for item in self.resultJson["result"]["tags"]:
@@ -82,10 +83,10 @@ class ImaggaAPIHandler:
         return parsedResultData
             
 
-    def getJsonResult(self):
+    def getJsonResult(self): # returns json result in pretty format
         return json.dumps(self.resultJson, indent=4, sort_keys=True)
 
-    def APIHandle(self):
+    def APIHandle(self): # Executes all Image recognition related methods returns output
         self.uploadImage()
         if self.recognitionType == 'Tagging':
             self.imageTagging()
