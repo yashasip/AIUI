@@ -1,9 +1,9 @@
 import requests
 import json
 
-
-API_KEY = "acc_bb1f59217fa4df8"
-API_SECRET = "2f8013473730615cc2aa68d77b05e4ea"
+# ENTER YOUR IMAGGA API KEY AND API SECRET KEY TO GET STARTED!
+API_KEY = ""
+API_SECRET = ""
 
 
 class ImaggaAPIHandler:
